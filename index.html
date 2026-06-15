@@ -1,471 +1,582 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <title> Sumit Biranje - Resume</title>
-        <meta content="" name="description">
-        <meta content="" name="keywords">
-        <!-- Favicons -->
-        <link href="assets/img/favicon.png" rel="icon">
-        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-        <!-- Vendor CSS Files -->
-        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-        <!-- Template Main CSS File -->
-        <link href="assets/css/style.css" rel="stylesheet">
-    </head>
-    <body>
-        <!-- ======= Mobile nav toggle button ======= -->
-        <!--<button type="button" class="mobile-nav-toggle d-xl-none">
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </button> -->
-        <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
-        <!-- ======= Header ======= -->
-        <header id="header" class="d-flex flex-column justify-content-center">
-            <nav id="navbar" class="navbar nav-menu">
-                <ul>
-                    <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i><span>Home</span></a></li>
-                    <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i><span>About</span></a></li>
-                    <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-book-content"></i><span>Skills</span></a></li>
-                    <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i><span>Resume</span></a></li>
-                    <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-server"></i><span>Achievements</span></a></li>
-                    <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i><span>Contact</span></a></li>
-                </ul>
-            </nav><!-- .nav-menu -->
-        </header><!-- End Header -->
-        <!-- ======= Hero Section ======= -->
-        <section id="hero" class="d-flex flex-column justify-content-center">
-            <div class="container" data-aos="zoom-in" data-aos-delay="100">
-                <h1>Sumit Biranje</h1>
-                <p>I'm <span class="typed" data-typed-items="Web Designer, Web Developer"></span></p>
-                <div class="social-links">
-                    <a href="https://twitter.com/biranje_sumit" class="twitter"><i class="bx bxl-twitter"></i></a>
-                    <a href="https://www.facebook.com/sumit.biranje.7967" class="facebook"><i class="bx bxl-facebook"></i></a>
-                    <a href="https://instagram.com/sumitbiranje09?utm_medium=copy_link" class="instagram"><i class="bx bxl-instagram"></i></a>
-                    <a href="https://wa.me/919326853778" class="whatsapp"><i class="bx bxl-whatsapp"></i></a>
-                    <a href="http://www.linkedin.com/in/sumit-biranje-" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                    <a href="https://github.com/sumitbiranje/sumitbiranje/tree/main" class="github"><i class="bx bxl-github"></i></a>
-                    <a href="https://t.me/SumitBiranje" class="telegram"><i class="bx bxl-telegram"></i></a>
-                </div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sumit Biranje — AI Engineer</title>
+<meta name="description" content="Sumit Biranje — AI Engineer building production LLM platforms, multi-agent systems, and knowledge-graph developer tools." />
+<meta name="author" content="Sumit Tanaji Biranje" />
+<!-- social preview -->
+<meta property="og:title" content="Sumit Biranje — AI Engineer" />
+<meta property="og:description" content="LLM & agentic systems, knowledge graphs, and RAG — shipped at enterprise scale." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#0A0A18; --bg2:#0E0E22; --panel:rgba(24,24,46,0.55); --panel-solid:#15152C;
+    --line:rgba(140,140,200,0.14); --line-strong:rgba(140,140,200,0.26);
+    --ink:#EDEDFB; --mut:#9293BE; --mut2:#6E6F96;
+    --violet:#8B6CF6; --teal:#2DD4BF; --coral:#FB7185; --amber:#FBBF24;
+    --grad:linear-gradient(120deg,#8B6CF6 0%,#2DD4BF 100%);
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:'Manrope',system-ui,sans-serif; line-height:1.6;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(139,108,246,0.35)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---- nav ---- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(10,10,24,0.62);border-bottom:1px solid transparent;transition:border-color .3s}
+  nav.scrolled{border-bottom:1px solid var(--line)}
+  .navrow{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:'Space Grotesk';font-weight:700;font-size:17px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px rgba(139,108,246,.8)}
+  .navlinks{display:flex;align-items:center;gap:28px}
+  .navlinks a{font-size:14px;color:var(--mut);font-weight:500;transition:color .2s}
+  .navlinks a:hover{color:var(--ink)}
+  .cv-btn{font-family:'JetBrains Mono';font-size:12.5px;font-weight:500;
+    padding:9px 16px;border-radius:10px;background:var(--grad);color:#0A0A18;
+    font-weight:600;display:inline-flex;align-items:center;gap:7px;
+    transition:transform .18s, box-shadow .18s;box-shadow:0 6px 20px -8px rgba(139,108,246,.7)}
+  .cv-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(45,212,191,.6)}
+  .menu-toggle{display:none;background:none;border:1px solid var(--line-strong);color:var(--ink);
+    width:40px;height:38px;border-radius:9px;font-size:18px;cursor:pointer}
+
+  /* ---- hero ---- */
+  header.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+  #graph{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 80% at 70% 30%,rgba(10,10,24,0) 0%,rgba(10,10,24,.55) 60%,rgba(10,10,24,.92) 100%)}
+  .hero-inner{position:relative;z-index:2;padding-top:64px}
+  .eyebrow{font-family:'JetBrains Mono';font-size:13px;color:var(--teal);letter-spacing:.04em;
+    display:inline-flex;align-items:center;gap:8px;margin-bottom:22px}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 0 rgba(45,212,191,.7);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(45,212,191,.55)}70%{box-shadow:0 0 0 12px rgba(45,212,191,0)}100%{box-shadow:0 0 0 0 rgba(45,212,191,0)}}
+  h1.name{font-family:'Space Grotesk';font-weight:700;letter-spacing:-.03em;
+    font-size:clamp(44px,9vw,86px);line-height:.98;margin-bottom:18px}
+  h1.name .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lead{font-size:clamp(17px,2.2vw,21px);color:var(--mut);max-width:580px;margin-bottom:14px}
+  .lead b{color:var(--ink);font-weight:600}
+  .roleline{font-family:'JetBrains Mono';font-size:13.5px;color:var(--mut2);margin-bottom:32px;letter-spacing:.02em}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn-primary{font-family:'JetBrains Mono';font-weight:600;font-size:14px;padding:14px 22px;border-radius:12px;
+    background:var(--grad);color:#0A0A18;display:inline-flex;align-items:center;gap:9px;
+    transition:transform .18s,box-shadow .18s;box-shadow:0 10px 30px -10px rgba(139,108,246,.7)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(45,212,191,.6)}
+  .btn-ghost{font-family:'JetBrains Mono';font-weight:500;font-size:14px;padding:14px 22px;border-radius:12px;
+    border:1px solid var(--line-strong);color:var(--ink);transition:background .2s,border-color .2s}
+  .btn-ghost:hover{background:rgba(139,108,246,.1);border-color:var(--violet)}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;
+    font-family:'JetBrains Mono';font-size:11px;color:var(--mut2);letter-spacing:.18em;text-align:center}
+  .scroll-hint .bar{width:1px;height:34px;margin:8px auto 0;background:linear-gradient(var(--mut2),transparent);animation:fall 2s infinite}
+  @keyframes fall{0%{opacity:.2;transform:scaleY(.4)}50%{opacity:1}100%{opacity:.2;transform:scaleY(.4)}}
+
+  /* ---- sections ---- */
+  section{padding:96px 0;position:relative}
+  .sec-label{font-family:'JetBrains Mono';font-size:12.5px;color:var(--violet);letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+  .sec-label::before{content:"";width:26px;height:1px;background:var(--violet);display:inline-block}
+  h2{font-family:'Space Grotesk';font-weight:600;letter-spacing:-.02em;
+    font-size:clamp(28px,4.4vw,42px);line-height:1.06;margin-bottom:20px}
+  .sec-intro{color:var(--mut);max-width:620px;font-size:16.5px}
+
+  /* ---- about ---- */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start}
+  .about-grid p{color:var(--mut);font-size:16.5px;margin-bottom:16px}
+  .about-grid p b{color:var(--ink);font-weight:600}
+  .stat-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;
+    backdrop-filter:blur(8px);margin-bottom:14px}
+  .stat-card .n{font-family:'Space Grotesk';font-weight:700;font-size:30px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stat-card .l{font-size:13.5px;color:var(--mut);margin-top:2px}
+
+  /* ---- skills ---- */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .skill-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;
+    backdrop-filter:blur(8px);transition:border-color .25s,transform .25s}
+  .skill-card:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .skill-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .skill-head .ic{width:10px;height:10px;border-radius:3px}
+  .skill-head h3{font-family:'Space Grotesk';font-size:16px;font-weight:600}
+  .tags{display:flex;flex-wrap:wrap;gap:7px}
+  .tag{font-family:'JetBrains Mono';font-size:11.5px;color:var(--mut);
+    background:rgba(139,108,246,.07);border:1px solid var(--line);
+    padding:4px 9px;border-radius:7px;transition:color .2s,border-color .2s}
+  .skill-card:hover .tag{color:var(--ink)}
+
+  /* ---- projects ---- */
+  .proj{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    padding:28px 28px 24px;margin-bottom:20px;backdrop-filter:blur(8px);
+    transition:border-color .25s}
+  .proj:hover{border-color:var(--line-strong)}
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .proj-idx{font-family:'JetBrains Mono';font-size:12px;color:var(--mut2)}
+  .proj h3{font-family:'Space Grotesk';font-size:22px;font-weight:600;letter-spacing:-.01em;margin:4px 0 8px}
+  .proj .one{color:var(--mut);font-size:15.5px;max-width:640px}
+  .impact{font-family:'JetBrains Mono';font-size:12px;color:var(--teal);
+    background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.22);
+    padding:6px 12px;border-radius:9px;white-space:nowrap;align-self:flex-start}
+  .proj-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+  .proj-body-inner{padding-top:20px}
+  .proj ul{list-style:none;margin:6px 0 16px}
+  .proj li{position:relative;padding-left:20px;color:var(--mut);font-size:15px;margin-bottom:9px}
+  .proj li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;
+    background:var(--grad)}
+  .proj li b{color:var(--ink);font-weight:600}
+  .stack{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .proj-toggle{margin-top:14px;font-family:'JetBrains Mono';font-size:12.5px;color:var(--violet);
+    background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:0}
+  .proj-toggle .chev{transition:transform .3s}
+  .proj-toggle.open .chev{transform:rotate(180deg)}
+
+  /* ---- timeline ---- */
+  .tl{position:relative;padding-left:30px}
+  .tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1.5px;
+    background:linear-gradient(var(--violet),var(--teal),transparent)}
+  .tl-item{position:relative;margin-bottom:30px}
+  .tl-item::before{content:"";position:absolute;left:-30px;top:5px;width:13px;height:13px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--violet);box-shadow:0 0 0 4px rgba(139,108,246,.12)}
+  .tl-item .when{font-family:'JetBrains Mono';font-size:12px;color:var(--mut2);margin-bottom:3px}
+  .tl-item h3{font-family:'Space Grotesk';font-size:18px;font-weight:600}
+  .tl-item .org{color:var(--teal);font-size:14px;margin-bottom:8px}
+  .tl-item p{color:var(--mut);font-size:14.5px}
+
+  /* ---- exploring ---- */
+  .explore-note{font-family:'JetBrains Mono';font-size:12.5px;color:var(--amber);
+    background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.22);
+    padding:8px 14px;border-radius:10px;display:inline-block;margin-bottom:24px}
+  .explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .explore-card{background:var(--panel);border:1px dashed var(--line-strong);border-radius:16px;padding:22px;backdrop-filter:blur(8px)}
+  .explore-card h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;margin-bottom:8px}
+  .explore-card p{color:var(--mut);font-size:14px}
+
+  /* ---- contact ---- */
+  .contact-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;
+    padding:48px 40px;text-align:center;backdrop-filter:blur(8px)}
+  .contact-card h2{margin-bottom:14px}
+  .contact-card p{color:var(--mut);max-width:480px;margin:0 auto 28px;font-size:16.5px}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .clink{font-family:'JetBrains Mono';font-size:13.5px;padding:12px 20px;border-radius:11px;
+    border:1px solid var(--line-strong);display:inline-flex;align-items:center;gap:9px;
+    transition:background .2s,border-color .2s,transform .18s}
+  .clink:hover{background:rgba(139,108,246,.1);border-color:var(--violet);transform:translateY(-2px)}
+
+  footer{padding:34px 0 44px;border-top:1px solid var(--line);text-align:center}
+  footer p{font-family:'JetBrains Mono';font-size:12px;color:var(--mut2)}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---- responsive ---- */
+  /* tablet landscape / small desktop */
+  @media(max-width:1024px){
+    :root{--maxw:900px}
+    .wrap{padding:0 28px}
+    .about-grid{gap:30px}
+    .explore-grid{gap:14px}
+  }
+  /* tablet portrait — collapse nav, stack wide grids */
+  @media(max-width:880px){
+    .navlinks{position:fixed;top:64px;left:0;right:0;flex-direction:column;gap:0;
+      background:rgba(12,12,28,.97);backdrop-filter:blur(14px);padding:8px 0;
+      border-bottom:1px solid var(--line);transform:translateY(-140%);transition:transform .32s;align-items:stretch}
+    .navlinks.show{transform:translateY(0)}
+    .navlinks a{padding:14px 28px;font-size:15px}
+    .navlinks .cv-btn{margin:10px 28px;justify-content:center}
+    .menu-toggle{display:block}
+    .about-grid{grid-template-columns:1fr;gap:26px}
+    .explore-grid{grid-template-columns:1fr}
+    section{padding:80px 0}
+  }
+  /* phones */
+  @media(max-width:680px){
+    .wrap{padding:0 18px}
+    .skills-grid{grid-template-columns:1fr}
+    section{padding:60px 0}
+    .proj{padding:22px 20px}
+    .contact-card{padding:36px 22px}
+    .proj-top{flex-direction:column}
+    .impact{align-self:flex-start}
+    h1.name{font-size:clamp(40px,12vw,60px)}
+    .cta-row{width:100%}
+    .btn-primary,.btn-ghost{flex:1;justify-content:center}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ============================ DATA ============================ */
+const NAVLINKS = [["About","#about"],["Skills","#skills"],["Work","#work"],["Experience","#experience"],["Contact","#contact"]];
+
+const SKILLS = [
+  { t:"LLM & Agents", c:"var(--violet)",
+    tags:["LangChain","LangGraph","OpenAI Agents SDK","Google ADK","FastMCP","Langflow","GPT-4o","Claude 4","Gemini"] },
+  { t:"Knowledge Graphs", c:"var(--teal)",
+    tags:["Neo4j","FalkorDB","Cypher","Schema design","Multi-hop traversal","Query optimisation"] },
+  { t:"RAG & Retrieval", c:"var(--teal)",
+    tags:["ChromaDB","FAISS","Hybrid search","Re-ranking","Graph-enhanced retrieval","Chunking"] },
+  { t:"Prompt Engineering", c:"var(--coral)",
+    tags:["CoT","ReAct","Tree-of-thought","Dynamic few-shot","Prompt chaining","Structured JSON","A/B testing"] },
+  { t:"Observability", c:"var(--coral)",
+    tags:["Langfuse","Tracing","Per-call cost","Prompt versioning","Eval pipelines","Latency profiling"] },
+  { t:"Backend", c:"var(--amber)",
+    tags:["FastAPI","FastMCP","Streamlit","Flask","Async / sync","Protocol abstractions","Concurrency"] },
+  { t:"Data & Parsing", c:"var(--amber)",
+    tags:["SQLite","DuckDB","MySQL","Parquet","NDJSON","PyArrow","tree-sitter"] },
+  { t:"DevOps & QA", c:"var(--violet)",
+    tags:["Docker","Podman","GitHub Actions","GitLab CI","pytest","ruff","mypy","TDD","JIRA"] },
+];
+
+const PROJECTS = [
+  {
+    name:"Code Impact Analysis & Test Selection",
+    one:"A platform that reads code changes across many repos, walks a knowledge graph to find which tests they actually touch, and recommends a targeted suite — cutting regression scoping from hours to minutes.",
+    impact:"Adopted across teams",
+    points:[
+      ["Streaming architecture","multi-phase pipeline with resumable checkpoints and thread-safe concurrent workers, with automatic fault recovery on failed builds."],
+      ["Swappable graph layer","a Protocol-based abstraction over Neo4j and FalkorDB via a factory pattern — changing backend is one config toggle, zero code edits."],
+      ["Polyglot parsing","tree-sitter extracts symbols across Java, Kotlin, C++, C, XML, AIDL and HAL to populate the graph each build."],
+      ["Traceability","bidirectional code-to-requirement mapping through pruned multi-hop traversal, surfaced in a Streamlit dashboard with one-click Excel export."],
+    ],
+    stack:["Python 3.11","Neo4j","FalkorDB","tree-sitter","FastAPI","DuckDB","PyArrow","Streamlit"],
+  },
+  {
+    name:"LLM Test Case Quality Reviewer",
+    one:"A reviewer that scores test cases for completeness, clarity, traceability and automation potential in parallel — replacing days of manual review with a single automated run.",
+    impact:"Days → one run",
+    points:[
+      ["Parallel evaluation","batched LLM analysis with structured prompting, fully traced per call so every score is auditable."],
+      ["Configurable by team","a YAML-driven rules engine lets each team define its own quality criteria — no code forks, faster onboarding."],
+      ["Measured against humans","Langfuse evaluation pipelines reached strong agreement with senior-reviewer scores, with per-call cost and latency tracked end to end."],
+    ],
+    stack:["Python 3.11","LangChain","Claude / GPT APIs","Langfuse","Streamlit","YAML"],
+  },
+  {
+    name:"Automation Feasibility Analyzer",
+    one:"A scoring tool that tells managers which test cases are worth automating — turning a multi-day manual judgement call into a data-driven, ROI-ranked workflow.",
+    impact:"ROI-driven planning",
+    points:[
+      ["Three-axis scoring","rates each case on design complexity, framework capability and environment constraints to prioritise automation spend."],
+      ["Agent orchestration","Langflow visual chains run the multi-step evaluation and ROI estimation, compressing days of assessment into an automated pass."],
+      ["Decision-ready output","dependency-aware test-pack sequencing gives a clear cost-vs-coverage view for sprint planning."],
+    ],
+    stack:["Python 3.11","LangChain","Langflow","Claude / GPT APIs","Langfuse"],
+  },
+];
+
+const EXPERIENCE = [
+  { when:"Apr 2025 — Present", role:"Sr. Engineer — AI Engineering", org:"KPIT Technologies, Pune",
+    desc:"Building production AI platforms: knowledge-graph test selection, LLM quality review, and agentic feasibility analysis — adopted as primary tooling across engineering teams." },
+  { when:"Jun 2023 — Mar 2025", role:"Infotainment System Test Engineer", org:"KPIT Technologies, Pune",
+    desc:"Functional, regression and integration testing for AOSP-based IVI systems. Led root-cause analysis with CANoe diagnostics and drove a high pre-release defect closure rate." },
+  { when:"Jan 2022 — May 2023", role:"Trainee Engineer", org:"KPIT Technologies, Pune",
+    desc:"Ramped to independent test ownership fastest in the cohort; authored documentation templates adopted by later trainee batches." },
+];
+
+const EXPLORING = [
+  { t:"Domain-specific fine-tuning", d:"LoRA / QLoRA experiments with Unsloth on automotive test-case corpora, benchmarked against GPT-4o for accuracy and cost." },
+  { t:"Production model selection", d:"Evaluating open-source LLMs (Llama, Mistral, Qwen, Gemma) on accuracy, latency and per-token cost to inform model-routing." },
+  { t:"MLOps foundations", d:"Experiment tracking, model versioning and reproducible configs, working toward automated retraining pipelines." },
+];
+
+const RESUME_FILE = "Sumit_Biranje_Resume.pdf"; // keep this file next to index.html
+
+/* ====================== KNOWLEDGE GRAPH ====================== */
+function GraphCanvas(){
+  const ref = useRef(null);
+  useEffect(()=>{
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cv = ref.current; const ctx = cv.getContext("2d");
+    let raf, W, H, dpr;
+    const palette = ["#8B6CF6","#2DD4BF","#FB7185","#FBBF24"];
+    const labels = ["LLM Orchestration","Agentic Systems","Knowledge Graphs","RAG","Prompt Eng","Observability","Python Backend","tree-sitter","Vector Search","Automotive QA"];
+    const labelsShort = ["LLM","Agents","Graphs","RAG","Prompts","Tracing","Backend","Parser","Vectors","QA"];
+    const edges = [[0,1],[0,3],[0,4],[1,2],[2,3],[2,7],[3,8],[4,5],[5,0],[6,0],[6,2],[7,6],[8,3],[9,6],[1,4]];
+    let nodes = [], mouse={x:-9999,y:-9999}, t=0, small=false;
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    function seed(){
+      small = W<640;
+      const L = small?labelsShort:labels;
+      nodes = L.map((lab,i)=>({
+        lab, c: palette[i%palette.length],
+        x: Math.random()*W, y: Math.random()*H,
+        vx:(Math.random()-.5)*0.12, vy:(Math.random()-.5)*0.12,
+        r: 4 + Math.random()*3, seed: Math.random()*1000,
+      }));
+    }
+    function draw(){
+      t += 0.005;
+      ctx.clearRect(0,0,W,H);
+      // edges
+      for(const [a,b] of edges){
+        const n1=nodes[a], n2=nodes[b]; if(!n1||!n2) continue;
+        const dx=n2.x-n1.x, dy=n2.y-n1.y, dist=Math.hypot(dx,dy);
+        const g=ctx.createLinearGradient(n1.x,n1.y,n2.x,n2.y);
+        g.addColorStop(0,n1.c); g.addColorStop(1,n2.c);
+        ctx.strokeStyle=g; ctx.globalAlpha=Math.max(0.05, 0.22 - dist/2600);
+        ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(n1.x,n1.y); ctx.lineTo(n2.x,n2.y); ctx.stroke();
+      }
+      ctx.globalAlpha=1;
+      // nodes
+      for(const n of nodes){
+        if(!reduce){
+          n.x += n.vx + Math.sin(t+n.seed)*0.06;
+          n.y += n.vy + Math.cos(t+n.seed)*0.06;
+          if(n.x<20||n.x>W-20) n.vx*=-1; if(n.y<20||n.y>H-20) n.vy*=-1;
+          n.x=Math.max(16,Math.min(W-16,n.x)); n.y=Math.max(16,Math.min(H-16,n.y));
+        }
+        const md=Math.hypot(mouse.x-n.x, mouse.y-n.y);
+        const near = md<120;
+        const r = n.r*(near?1.7:1);
+        // glow
+        const glow=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*5);
+        glow.addColorStop(0,n.c+"55"); glow.addColorStop(1,n.c+"00");
+        ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(n.x,n.y,r*5,0,7); ctx.fill();
+        // core
+        ctx.fillStyle=n.c; ctx.beginPath(); ctx.arc(n.x,n.y,r,0,7); ctx.fill();
+        // label
+        ctx.globalAlpha=near?1:0.5;
+        ctx.fillStyle=near?"#EDEDFB":"#9293BE";
+        ctx.font=`${near?(small?11:12):(small?9.5:10.5)}px 'JetBrains Mono', monospace`;
+        ctx.fillText(n.lab, n.x+r+7, n.y+3);
+        ctx.globalAlpha=1;
+      }
+      raf=requestAnimationFrame(draw);
+    }
+    function onMove(e){ const rect=cv.getBoundingClientRect(); mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top; }
+    function onLeave(){ mouse.x=-9999; mouse.y=-9999; }
+    resize(); seed(); draw();
+    window.addEventListener("resize",()=>{resize();seed();});
+    cv.addEventListener("mousemove",onMove); cv.addEventListener("mouseleave",onLeave);
+    return ()=>{ cancelAnimationFrame(raf); cv.removeEventListener("mousemove",onMove); cv.removeEventListener("mouseleave",onLeave); };
+  },[]);
+  return <canvas id="graph" ref={ref}></canvas>;
+}
+
+/* ====================== HELPERS ====================== */
+function useReveal(){
+  useEffect(()=>{
+    const els=document.querySelectorAll(".reveal");
+    const io=new IntersectionObserver((ents)=>{
+      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    },{threshold:0.12});
+    els.forEach(el=>io.observe(el));
+    return ()=>io.disconnect();
+  },[]);
+}
+const DL = ({size=15}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>;
+const Chev = () => <svg className="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>;
+const Arrow = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>;
+
+/* ====================== NAV ====================== */
+function Nav(){
+  const [scrolled,setScrolled]=useState(false);
+  const [open,setOpen]=useState(false);
+  useEffect(()=>{ const f=()=>setScrolled(window.scrollY>20); window.addEventListener("scroll",f); return ()=>window.removeEventListener("scroll",f); },[]);
+  return (
+    <nav className={scrolled?"scrolled":""}>
+      <div className="wrap navrow">
+        <a className="brand" href="#top"><span className="dot"></span>Sumit Biranje</a>
+        <div className={"navlinks"+(open?" show":"")}>
+          {NAVLINKS.map(([t,h])=> <a key={h} href={h} onClick={()=>setOpen(false)}>{t}</a>)}
+          <a className="cv-btn" href={RESUME_FILE} download onClick={()=>setOpen(false)}><DL size={13}/>Download CV</a>
+        </div>
+        <button className="menu-toggle" onClick={()=>setOpen(o=>!o)} aria-label="Menu">{open?"✕":"☰"}</button>
+      </div>
+    </nav>
+  );
+}
+
+/* ====================== PROJECT ====================== */
+function Project({p,i}){
+  const [open,setOpen]=useState(i===0);
+  const ref=useRef(null);
+  const [mh,setMh]=useState("0px");
+  useEffect(()=>{
+    const calc=()=>setMh(open && ref.current ? ref.current.scrollHeight+"px" : "0px");
+    calc();
+    window.addEventListener("resize",calc);
+    return ()=>window.removeEventListener("resize",calc);
+  },[open]);
+  return (
+    <div className="proj reveal">
+      <div className="proj-top">
+        <div>
+          <div className="proj-idx">0{i+1} / PROJECT</div>
+          <h3>{p.name}</h3>
+          <p className="one">{p.one}</p>
+        </div>
+        <span className="impact">{p.impact}</span>
+      </div>
+      <div className="proj-body" style={{maxHeight:mh}}>
+        <div className="proj-body-inner" ref={ref}>
+          <ul>{p.points.map(([h,d],k)=><li key={k}><b>{h}</b> — {d}</li>)}</ul>
+          <div className="stack">{p.stack.map(s=><span key={s} className="tag">{s}</span>)}</div>
+        </div>
+      </div>
+      <button className={"proj-toggle"+(open?" open":"")} onClick={()=>setOpen(o=>!o)}>
+        {open?"Hide details":"How it works"} <Chev/>
+      </button>
+    </div>
+  );
+}
+
+/* ====================== APP ====================== */
+function App(){
+  useReveal();
+  return (
+    <div id="top">
+      <Nav/>
+      <header className="hero">
+        <GraphCanvas/>
+        <div className="hero-veil"></div>
+        <div className="wrap hero-inner">
+          <div className="eyebrow"><span className="pulse"></span>AI ENGINEER · PUNE, INDIA</div>
+          <h1 className="name">Sumit <span className="g">Biranje</span></h1>
+          <p className="lead">I build production <b>LLM platforms</b>, <b>multi-agent systems</b>, and <b>knowledge-graph</b> developer tools — shipped at enterprise scale.</p>
+          <p className="roleline">LangChain · LangGraph · Neo4j · FalkorDB · FastAPI · Langfuse</p>
+          <div className="cta-row">
+            <a className="btn-primary" href={RESUME_FILE} download><DL/>Download CV</a>
+            <a className="btn-ghost" href="#work">View work</a>
+          </div>
+        </div>
+        <div className="scroll-hint">SCROLL<div className="bar"></div></div>
+      </header>
+
+      {/* ABOUT */}
+      <section id="about">
+        <div className="wrap">
+          <div className="sec-label">About</div>
+          <div className="about-grid">
+            <div className="reveal">
+              <h2>From testing cars to teaching machines.</h2>
+              <p>I started in automotive software quality — functional and regression testing for in-vehicle infotainment systems. That foundation taught me to care about <b>reliability, traceability, and what actually ships</b>.</p>
+              <p>Now I build the AI tooling that engineering teams rely on: <b>knowledge-graph systems</b> that map code to tests, <b>LLM pipelines</b> that review quality at scale, and <b>agentic workflows</b> that turn multi-day judgement calls into automated decisions.</p>
+              <p>I ship with observability, human-in-the-loop validation, and an eye on cost — because a model in production is only as good as the guardrails around it.</p>
             </div>
-        </section><!-- End Hero -->
-        <main id="main">
-            <!-- ======= About Section ======= -->
-            <section id="about" class="about">
-                <div class="container" data-aos="fade-up">
-                    <div class="section-title">
-                        <h2>About</h2>
-                        <p> Student at DKTE Society's Yashwantrao Chavan Polytechnic, Ichalkaranji. </p>
-                        <p> Open to work immediately.</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
-                        </div>
-                        <div class="col-lg-8 pt-4 pt-lg-0 content">
-                            <h3>Web Designer &amp; Web Developer.</h3>
-                            <p class="fst-italic">
-                                I am looking for new role and would appreciate your support.
-                            </p>
-                            <h3>Career Objectives</h3>
-                            <p class="fst-italic">
-                                Looking for opportunities to incorporate my skills and training to help the company grow. I am looking forward to roles that will help me realise my potential by exploring the various aspects of this field.
-                            </p>
-                            <h3>Personal Details</h3>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <ul>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Name:</strong> <span>Sumit Tanaji Biranje</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>17 September 2003</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Address:</strong> <span>16-222, Kranti Group, Ghodkenagar</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>State:</strong> <span>Maharashtra</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>District:</strong> <span>Kolhapur</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Ichalkaranji</span></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6">
-                                    <ul>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>18</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Gender:</strong> <span>Male</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+919326853778</span></li>
-                                        <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>sumitbiranje9@gmail.com</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section><!-- End About Section -->
-            <!-- ======= Skills Section ======= -->
-            <section id="skills" class="skills section-bg">
-                <div class="container" data-aos="fade-up">
-                    <div class="section-title">
-                        <h2>Skills</h2>
-                    </div>
-                    <div class="row skills-content">
-                        <div class="col-lg-6">
-                            <h3>Language Skills</h3>
-                            <div class="progress">
-                                <span class="skill">Marathi <i class="val">100%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">Hindi <i class="val">90%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">English <i class="val">70%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <h3>Other Skills</h3>
-                            <ul>
-                                <li>Execllent in Presentation.</li>
-                                <li>Comunication skills in written and verbal both.</li>
-                                <li>Ability to deal with people.</li>
-                                <li>Willingness to learn.</li>
-                                <li>Team Player.</li>
-                                <li>Good Analytical skill.</li>
-                                <li>Becoming a lifelong learner.</li>
-                                <li>Reskilling in adjacent areas.</li>
-                                <li>Being an 'expert-generalist'.</li>
-                                <li>Project Management.</li>
-                                <li>Leadership.</li>
-                                <li>Problem Solving.</li>
-                                <li>Customer Service.</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <h3> Programming Skills</h3>
-                            <div class="progress">
-                                <span class="skill"> C <i class="val">90%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">C++ <i class="val">70%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">Java <i class="val">50%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">HTML <i class="val">90%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">CSS <i class="val">70%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">JavaScript <i class="val">60%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">PHP <i class="val">80%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="progress">
-                                <span class="skill">Python <i class="val">0%</i></span>
-                                <div class="progress-bar-wrap">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section><!-- End Skills Section -->
-            <!-- ======= Resume Section ======= -->
-            <section id="resume" class="resume">
-                <div class="container" data-aos="fade-up">
-                    <div class="section-title">
-                        <h2>Resume</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h3 class="resume-title">About me</h3>
-                            <div class="resume-item">
-                                <h4>I cares about:</h4>
-                                <ui>
-                                    <li>Animal Walfare</li>
-                                    <li>Arts & Culture</li>
-                                    <li>Children</li>
-                                    <li>Civil rights & Social action</li>
-                                    <li>Disaster & Humanitarian</li>
-                                    <li>Economic empowerment</li>
-                                    <li>Education</li>
-                                    <li>Environment</li>
-                                    <li>Health</li>
-                                    <li>Human rights</li>
-                                    <li>Politics</li>
-                                    <li>Poverty alleviation</li>
-                                    <li>Science & Technology</li>
-                                    <li>Social services</li>
-                                    <li>Veteran support</li>
-                                </ui>
-                            </div>
-                            <div class="resume-item">
-                                <h4>I am available for:</h4>
-                                <ui>
-                                    <li>Contract & Freelance projects.</li>
-                                    <li>Paid consulting.</li>
-                                    <li>Working on Projects.</li>
-                                </ui>
-                            </div>
-                            <h3 class="resume-title">Experience</h3>
-                            <div class="resume-item">
-                                <p>I am fresher & looking for new opportunities.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h3 class="resume-title">Education</h3>
-                            <div class="resume-item">
-                                <h4>SSC Board Examination:</h4>
-                                <h5>2018 - 2019</h5>
-                                <p>I completed my SSC Board Examination with 72.40% in Govindrao Highschool & Junior Collage, Ichalkaranji </p>
-                            </div>
-                            <div class="resume-item">
-                                <h4>DIPLOMA:</h4>
-                                <h5>2019 - Present</h5>
-                                <p>I am studying Third year Diploma in computer science & engineering in DKTE Society's Yashwantrao Chavan Polytechnic, Ichalkaranji. I completed first & second year with 74.28% Aggrigate.</p>
-                            </div>
-                            <h3 class="resume-title">Final Year Project</h3>
-                            <div class="resume-item">
-                                <h5>Project Name:</h5> <p>Admission Portal Developement for SSC Students.</p>
-                                <h5>Used Technologies:</h5><p>HTML, CSS, PHP, MySql, JavaScript, JQuery, Bootstrap</p>
-                                <h5>Project Demo Link:</h5><a href="">Admission Portal</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section><!-- End Resume Section -->
-            <!-- ======= Portfolio Section ======= -->
-            <section id="portfolio" class="portfolio section-bg">
-                <div class="container" data-aos="fade-up">
-                    <div class="section-title">
-                        <h2>Achievements</h2>
-                        <p>I achieved this certificates for attending online workshops & webinars, completing online courses & Participating in compititions.</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-                            <ul id="portfolio-flters">
-                                <li data-filter="*" class="filter-active">All</li>
-                                <li data-filter=".filter-courses">Courses</li>
-                                <li data-filter=".filter-workshops">Workshops</li>
-                                <li data-filter=".filter-competitions">Competitions</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-competitions">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-8.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Paper Presentation</h4>
-                                    <p>For participating in the Paper Presentation "ORNATE 2K19 National Level Event" Organized by Sharad Institute of Technology Polytechnic. Held on 21 Sept 2019</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-courses">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-1.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>C++ certification course</h4>
-                                    <p>I completed this course & certified by Programming Hub on 7 Feb 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-2.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Knowledge Sharing on A-Z of Journal Paper Publication</h4>
-                                    <p>Certificate for participating in the webinar on "Knowledge Sharing on A-Z of Journal Paper Publication" Organized in DKTE Society's Yashwantrao Chavan Polytechnic on 16 sepetember 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-competitions">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-9.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Tech Quiz</h4>
-                                    <p>Certificate for Achievement for securing 2nd Position in "Tech Quiz" Organized by Alpine Technologies Held on 2 Oct 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-3.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Python for Data Engineers</h4>
-                                    <p>Certificate on participating in the four days session on "Python for Data Engineers" Organized by ANT WAK on 10 Oct 2021.</p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-4.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Apple siri - How does Voice Recognition Work?</h4>
-                                    <p>For attending online session on "Apple siri - How does Voice Recognition Work?" Organized by TechLearn on 20 Oct 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-6.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>How Flipkart's Helping small Business to Grow using NLP</h4>
-                                    <p>For attending online session on "How Flipkart's Helping small Business to Grow using NLP" Organized by TechLearn on 27 Oct 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-10.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>MEDUNEP - 2021 International E - Conference</h4>
-                                    <p>For active participation in "MEDUNEP - 2021" Organized by Department of Mass Communication, Rajiv Gandhi (Central) University, Doimukh, Arunachal Pradesh, India on 15-16 Nov 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-5.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Build a Python Project - Sudoku Solver</h4>
-                                    <p>For attending online session on "Build a Python Project - Sudoku Solver" Organized by TechLearn on 18 Nov 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-workshops">
-                            <div class="portfolio-wrap">
-                                <img src="assets/img/certificates/certificate-7.jpg" class="img-fluid" alt="">
-                                <div class="portfolio-info">
-                                    <h4>Netflic Recommendation - How do they know what you like?</h4>
-                                    <p>For attending online session on "Netflic Recommendation - How do they know what you like?" Organized by TechLearn on 24 Nov 2021</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section><!-- End Portfolio Section -->
-             <!-- ======= Contact Section ======= -->
-            <section id="contact" class="contact">
-                <div class="container" data-aos="fade-up">
-                    <div class="section-title">
-                        <h2>Contact</h2>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-lg-4">
-                            <div class="info">
-                                <div class="address">
-                                    <i class="bi bi-geo-alt"></i>
-                                    <h4>Address:</h4>
-                                    <p>16-222, Kranti Group. Ghodkenagar, Ichalkaranji</p>
-                                </div>
-                                <div class="email">
-                                    <i class="bi bi-envelope"></i>
-                                    <h4>Email:</h4>
-                                    <p>sumitbiranje9@gmail.com</p>
-                                </div>
-                                <div class="phone">
-                                    <i class="bi bi-phone"></i>
-                                    <h4>Call:</h4>
-                                    <p>+919326853778</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8 mt-5 mt-lg-0">
-                            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                                    </div>
-                                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-                                </div>
-                                <div class="my-3">
-                                    <div class="loading">Loading</div>
-                                    <div class="error-message"></div>
-                                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                                </div>
-                                <div class="text-center"><button type="submit">Send Message</button></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section><!-- End Contact Section -->
-        </main><!-- End #main -->
-        <!-- ======= Footer ======= -->
-        <footer id="footer">
-            <div class="container">
-                <h3>Sumit Biranje</h3>
-                <div>
-                    <p><strong>DECLARATION: </strong> I hereby declare that above information is true And correct as per my belief.</p>
-                </div>
-                <div class="social-links">
-                    <a href="https://twitter.com/biranje_sumit" class="twitter"><i class="bx bxl-twitter"></i></a>
-                    <a href="https://www.facebook.com/sumit.biranje.7967" class="facebook"><i class="bx bxl-facebook"></i></a>
-                    <a href="https://instagram.com/sumitbiranje09?utm_medium=copy_link" class="instagram"><i class="bx bxl-instagram"></i></a>
-                    <a href="https://wa.me/919326853778" class="whatsapp"><i class="bx bxl-whatsapp"></i></a>
-                    <a href="http://www.linkedin.com/in/sumit-biranje-" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                    <a href="https://github.com/sumitbiranje/sumitbiranje/tree/main" class="github"><i class="bx bxl-github"></i></a>
-                    <a href="https://t.me/SumitBiranje" class="telegram"><i class="bx bxl-telegram"></i></a>
-                </div>
-                <div class="copyright">
-                    &copy; Copyright <strong><span>SumitBiranje</span></strong>. All Rights Reserved
-                </div>
+            <div className="reveal">
+              <div className="stat-card"><div className="n">3+ yrs</div><div className="l">Engineering at KPIT Technologies</div></div>
+              <div className="stat-card"><div className="n">3</div><div className="l">Production AI platforms shipped</div></div>
+              <div className="stat-card"><div className="n">7</div><div className="l">Languages parsed into one knowledge graph</div></div>
             </div>
-        </footer><!-- End Footer -->
-        <div id="preloader"></div>
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-            <i class="bi bi-arrow-up-short"></i>
-        </a>
-        <!-- Vendor JS Files -->
-        <script src="assets/vendor/purecounter/purecounter.js"></script>
-        <script src="assets/vendor/aos/aos.js"></script>
-        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-        <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-        <script src="assets/vendor/typed.js/typed.min.js"></script>
-        <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-        <script src="assets/vendor/php-email-form/validate.js"></script>
-        <!-- Template Main JS File -->
-        <script src="assets/js/main.js"></script>
-    </body>
+          </div>
+        </div>
+      </section>
+
+      {/* SKILLS */}
+      <section id="skills">
+        <div className="wrap">
+          <div className="sec-label">Toolkit</div>
+          <h2 className="reveal">What I work with</h2>
+          <p className="sec-intro reveal" style={{marginBottom:36}}>The stack I use day to day — grouped by where it sits in an AI system.</p>
+          <div className="skills-grid">
+            {SKILLS.map((s,i)=>(
+              <div className="skill-card reveal" key={s.t} style={{transitionDelay:(i%2)*0.06+"s"}}>
+                <div className="skill-head"><span className="ic" style={{background:s.c}}></span><h3>{s.t}</h3></div>
+                <div className="tags">{s.tags.map(tg=><span className="tag" key={tg}>{tg}</span>)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WORK */}
+      <section id="work">
+        <div className="wrap">
+          <div className="sec-label">Selected work</div>
+          <h2 className="reveal">Things I&rsquo;ve built</h2>
+          <p className="sec-intro reveal" style={{marginBottom:36}}>Production systems at KPIT — each one replaced a slow manual process with something measurable.</p>
+          {PROJECTS.map((p,i)=><Project key={p.name} p={p} i={i}/>)}
+        </div>
+      </section>
+
+      {/* EXPERIENCE */}
+      <section id="experience">
+        <div className="wrap">
+          <div className="sec-label">Path</div>
+          <h2 className="reveal" style={{marginBottom:40}}>Experience</h2>
+          <div className="tl">
+            {EXPERIENCE.map((e,i)=>(
+              <div className="tl-item reveal" key={i}>
+                <div className="when">{e.when}</div>
+                <h3>{e.role}</h3>
+                <div className="org">{e.org}</div>
+                <p>{e.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* EXPLORING */}
+      <section id="exploring">
+        <div className="wrap">
+          <div className="sec-label">On the bench</div>
+          <h2 className="reveal">Currently exploring</h2>
+          <p className="reveal"><span className="explore-note">Active learning — not yet part of my core toolkit above.</span></p>
+          <div className="explore-grid">
+            {EXPLORING.map(e=>(
+              <div className="explore-card reveal" key={e.t}>
+                <h3>{e.t}</h3><p>{e.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact">
+        <div className="wrap">
+          <div className="contact-card reveal">
+            <div className="sec-label" style={{justifyContent:"center"}}>Get in touch</div>
+            <h2>Let&rsquo;s build something.</h2>
+            <p>Open to AI engineering roles and interesting problems in LLMs, agents, and graph-powered systems.</p>
+            <div className="contact-links">
+              <a className="clink" href="mailto:sumitbiranje9@gmail.com">✉ Email</a>
+              <a className="clink" href="https://linkedin.com/in/sumit-biranje-" target="_blank" rel="noopener">in LinkedIn <Arrow/></a>
+              <a className="clink" href="https://github.com/sumitbiranje" target="_blank" rel="noopener">⌥ GitHub <Arrow/></a>
+              <a className="clink" href={RESUME_FILE} download><DL/> Résumé</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div className="wrap"><p>Designed & built by Sumit Biranje · Pune, India · {new Date().getFullYear()}</p></div>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
 </html>
