@@ -12,16 +12,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
   :root{
-    --bg:#0A0A18; --panel:rgba(24,24,46,0.55); --panel2:rgba(24,24,46,0.35);
-    --line:rgba(140,140,200,0.14); --line-strong:rgba(140,140,200,0.26);
-    --ink:#EDEDFB; --mut:#9293BE; --mut2:#6E6F96;
+    --bg:#0A0A18; --ink:#EDEDFB; --mut:#9293BE; --mut2:#6E6F96;
     --violet:#8B6CF6; --teal:#2DD4BF; --coral:#FB7185; --amber:#FBBF24;
     --grad:linear-gradient(120deg,#8B6CF6 0%,#2DD4BF 100%);
+    /* liquid-glass tokens */
+    --glass:rgba(255,255,255,0.055);
+    --glass-2:rgba(255,255,255,0.018);
+    --glass-border:rgba(255,255,255,0.11);
+    --glass-hi:rgba(255,255,255,0.18);
+    --blur:18px; --sat:160%;
     --maxw:1080px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -29,65 +30,111 @@
   body{
     background:#0A0A18; color:var(--ink);
     font-family:'Manrope',system-ui,sans-serif; line-height:1.6;
-    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative;
     -webkit-tap-highlight-color:rgba(139,108,246,.2);
   }
-  /* full-page ambient background — fixes blank/white scroll areas on mobile */
-  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  /* base ambient */
+  body::before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
     background:
-      radial-gradient(55% 45% at 18% 8%, rgba(139,108,246,0.14), transparent 70%),
-      radial-gradient(50% 45% at 88% 22%, rgba(45,212,191,0.10), transparent 70%),
-      radial-gradient(60% 50% at 50% 100%, rgba(139,108,246,0.06), transparent 70%),
-      #0A0A18;}
+      radial-gradient(60% 50% at 18% 4%, rgba(139,108,246,0.10), transparent 70%),
+      radial-gradient(55% 50% at 88% 18%, rgba(45,212,191,0.08), transparent 70%),
+      #07071A;}
+
+  /* ---- liquid morphing blobs ---- */
+  .bg-blobs{position:fixed;inset:-15%;z-index:-2;pointer-events:none;overflow:hidden;filter:saturate(125%)}
+  .blob{position:absolute;width:46vmax;height:46vmax;border-radius:50%;
+    filter:blur(75px);opacity:.42;mix-blend-mode:screen;will-change:transform,border-radius}
+  .blob.b1{background:radial-gradient(circle at 30% 30%,#8B6CF6,transparent 65%);top:-8%;left:-6%;
+    animation:morph1 22s ease-in-out infinite, drift1 30s ease-in-out infinite}
+  .blob.b2{background:radial-gradient(circle at 60% 40%,#2DD4BF,transparent 65%);top:18%;right:-10%;
+    animation:morph2 26s ease-in-out infinite, drift2 34s ease-in-out infinite}
+  .blob.b3{background:radial-gradient(circle at 50% 50%,#FB7185,transparent 62%);bottom:-12%;left:24%;
+    opacity:.30;animation:morph1 30s ease-in-out infinite reverse, drift3 38s ease-in-out infinite}
+  @keyframes morph1{0%,100%{border-radius:60% 40% 35% 65% / 55% 35% 65% 45%}50%{border-radius:35% 65% 60% 40% / 45% 60% 40% 55%}}
+  @keyframes morph2{0%,100%{border-radius:45% 55% 60% 40% / 60% 45% 55% 40%}50%{border-radius:65% 35% 40% 60% / 40% 60% 45% 55%}}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(7%,9%) scale(1.12)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(-9%,6%) scale(.92)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5%,-8%) scale(1.1)}}
+
+  /* ---- film grain ---- */
+  .bg-noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
   a{color:inherit;text-decoration:none}
   ::selection{background:rgba(139,108,246,0.35)}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;width:100%}
 
-  /* ---- nav ---- */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    background:rgba(10,10,24,0.62);border-bottom:1px solid transparent;transition:border-color .3s}
-  nav.scrolled{border-bottom:1px solid var(--line)}
-  .navrow{display:flex;align-items:center;justify-content:space-between;height:62px}
-  .brand{font-family:'Space Grotesk';font-weight:700;font-size:17px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
-  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px rgba(139,108,246,.8)}
-  .navlinks{display:flex;align-items:center;gap:26px}
+  /* ---- nav (floating glass pill) ---- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:14px;transition:padding .3s}
+  nav.scrolled{padding-top:8px}
+  .navrow{position:relative;display:flex;align-items:center;justify-content:space-between;height:56px;
+    padding:0 10px 0 18px;border-radius:16px;
+    background:linear-gradient(135deg,var(--glass),var(--glass-2));
+    backdrop-filter:blur(20px) saturate(var(--sat));-webkit-backdrop-filter:blur(20px) saturate(var(--sat));
+    border:1px solid var(--glass-border);
+    box-shadow:0 8px 30px -12px rgba(0,0,0,.5), inset 0 1px 0 0 var(--glass-hi);
+    transition:box-shadow .3s,border-color .3s}
+  nav.scrolled .navrow{box-shadow:0 14px 40px -14px rgba(0,0,0,.65), inset 0 1px 0 0 var(--glass-hi)}
+  .brand{font-family:'Space Grotesk';font-weight:700;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px rgba(139,108,246,.8);
+    animation:dotpulse 3s ease-in-out infinite}
+  @keyframes dotpulse{0%,100%{box-shadow:0 0 8px rgba(139,108,246,.6)}50%{box-shadow:0 0 18px rgba(45,212,191,.9)}}
+  .navlinks{display:flex;align-items:center;gap:24px}
   .navlinks a{font-size:14px;color:var(--mut);font-weight:500;transition:color .2s}
   .navlinks a:hover{color:var(--ink)}
-  .cv-btn{font-family:'JetBrains Mono';font-size:12.5px;font-weight:600;
-    padding:9px 15px;border-radius:10px;background:var(--grad);color:#0A0A18;
+  .cv-btn{position:relative;overflow:hidden;font-family:'JetBrains Mono';font-size:12.5px;font-weight:600;
+    padding:9px 15px;border-radius:11px;background:var(--grad);color:#0A0A18;
     display:inline-flex;align-items:center;gap:7px;
     transition:transform .18s, box-shadow .18s;box-shadow:0 6px 20px -8px rgba(139,108,246,.7)}
   .cv-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(45,212,191,.6)}
-  .menu-toggle{display:none;background:none;border:1px solid var(--line-strong);color:var(--ink);
-    width:42px;height:40px;border-radius:9px;font-size:18px;cursor:pointer;align-items:center;justify-content:center}
+  .menu-toggle{display:none;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);color:var(--ink);
+    width:42px;height:40px;border-radius:11px;font-size:18px;cursor:pointer;align-items:center;justify-content:center}
+
+  /* sheen sweep for gradient buttons */
+  .cv-btn::after,.btn-primary::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
+    transform:skewX(-18deg);transition:left .6s ease}
+  .cv-btn:hover::after,.btn-primary:hover::after{left:140%}
 
   /* ---- hero ---- */
   header.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
   #graph{position:absolute;inset:0;width:100%;height:100%;z-index:0}
   .hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(120% 80% at 70% 30%,rgba(10,10,24,0) 0%,rgba(10,10,24,.5) 58%,rgba(10,10,24,.9) 100%)}
-  .hero-inner{position:relative;z-index:2;padding-top:62px}
+    background:radial-gradient(120% 80% at 70% 30%,rgba(7,7,26,0) 0%,rgba(7,7,26,.45) 58%,rgba(7,7,26,.85) 100%)}
+  .hero-inner{position:relative;z-index:2;padding-top:80px}
+  .hero-inner>*{opacity:0;animation:heroIn .85s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero-inner>.badge{animation-delay:.05s}
+  .hero-inner>.name{animation-delay:.16s}
+  .hero-inner>.lead{animation-delay:.28s}
+  .hero-inner>.roleline{animation-delay:.38s}
+  .hero-inner>.cta-row{animation-delay:.48s}
+  @keyframes heroIn{from{opacity:0;translate:0 24px;filter:blur(8px)}to{opacity:1;translate:0 0;filter:blur(0)}}
   .badge{font-family:'JetBrains Mono';font-size:12.5px;color:var(--teal);letter-spacing:.04em;
     display:inline-flex;align-items:center;gap:9px;margin-bottom:22px;
-    border:1px solid rgba(45,212,191,.3);padding:6px 13px;border-radius:100px;background:rgba(45,212,191,.06)}
+    border:1px solid rgba(45,212,191,.3);padding:6px 13px;border-radius:100px;
+    background:rgba(45,212,191,.06);backdrop-filter:blur(8px)}
   .badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);
     box-shadow:0 0 0 0 rgba(45,212,191,.7);animation:pulse 2.4s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(45,212,191,.55)}70%{box-shadow:0 0 0 12px rgba(45,212,191,0)}100%{box-shadow:0 0 0 0 rgba(45,212,191,0)}}
   h1.name{font-family:'Space Grotesk';font-weight:700;letter-spacing:-.03em;
     font-size:clamp(42px,9vw,84px);line-height:.98;margin-bottom:20px}
-  h1.name .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  h1.name .g{background:linear-gradient(120deg,#8B6CF6,#2DD4BF,#8B6CF6);background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:gshift 6s ease-in-out infinite}
+  @keyframes gshift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
   .lead{font-size:clamp(16.5px,2.2vw,21px);color:var(--mut);max-width:600px;margin-bottom:16px}
   .lead b{color:var(--ink);font-weight:600}
-  .roleline{font-family:'JetBrains Mono';font-size:13px;color:var(--mut2);margin-bottom:32px;letter-spacing:.02em;max-width:540px}
+  .roleline{font-family:'JetBrains Mono';font-size:13px;color:var(--mut2);margin-bottom:32px;letter-spacing:.02em;max-width:560px}
   .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .btn-primary{font-family:'JetBrains Mono';font-weight:600;font-size:14px;padding:14px 22px;border-radius:12px;
-    background:var(--grad);color:#0A0A18;display:inline-flex;align-items:center;gap:9px;
+  .btn-primary{position:relative;overflow:hidden;font-family:'JetBrains Mono';font-weight:600;font-size:14px;
+    padding:14px 22px;border-radius:13px;background:var(--grad);color:#0A0A18;display:inline-flex;align-items:center;gap:9px;
     transition:transform .18s,box-shadow .18s;box-shadow:0 10px 30px -10px rgba(139,108,246,.7)}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(45,212,191,.6)}
-  .btn-ghost{font-family:'JetBrains Mono';font-weight:500;font-size:14px;padding:14px 22px;border-radius:12px;
-    border:1px solid var(--line-strong);color:var(--ink);transition:background .2s,border-color .2s}
-  .btn-ghost:hover{background:rgba(139,108,246,.1);border-color:var(--violet)}
+  .btn-ghost{font-family:'JetBrains Mono';font-weight:500;font-size:14px;padding:14px 22px;border-radius:13px;
+    border:1px solid var(--glass-border);color:var(--ink);
+    background:linear-gradient(135deg,var(--glass),var(--glass-2));backdrop-filter:blur(10px);
+    transition:background .2s,border-color .2s,transform .18s}
+  .btn-ghost:hover{border-color:var(--violet);transform:translateY(-2px)}
   .scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;
     font-family:'JetBrains Mono';font-size:11px;color:var(--mut2);letter-spacing:.18em;text-align:center}
   .scroll-hint .bar{width:1px;height:32px;margin:8px auto 0;background:linear-gradient(var(--mut2),transparent);animation:fall 2s infinite}
@@ -97,10 +144,26 @@
   section{padding:92px 0;position:relative}
   .sec-label{font-family:'JetBrains Mono';font-size:12.5px;color:var(--violet);letter-spacing:.14em;
     text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px}
-  .sec-label::before{content:"";width:26px;height:1px;background:var(--violet);display:inline-block}
+  .sec-label::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--violet),transparent);display:inline-block}
   h2{font-family:'Space Grotesk';font-weight:600;letter-spacing:-.02em;
     font-size:clamp(27px,4.4vw,42px);line-height:1.07;margin-bottom:20px}
   .sec-intro{color:var(--mut);max-width:620px;font-size:16.5px}
+
+  /* ---- universal glass surface ---- */
+  .glass{position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--glass),var(--glass-2));
+    backdrop-filter:blur(var(--blur)) saturate(var(--sat));-webkit-backdrop-filter:blur(var(--blur)) saturate(var(--sat));
+    border:1px solid var(--glass-border);
+    box-shadow:0 10px 40px -14px rgba(0,0,0,.55), inset 0 1px 0 0 var(--glass-hi), inset 0 0 0 1px rgba(255,255,255,.02);
+    transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s}
+  /* cursor-tracking specular highlight */
+  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+    background:radial-gradient(220px circle at var(--mx,50%) var(--my,-10%),rgba(255,255,255,.12),transparent 60%);
+    opacity:0;transition:opacity .35s}
+  .glass:hover{border-color:rgba(255,255,255,.2);
+    box-shadow:0 20px 56px -18px rgba(0,0,0,.7), inset 0 1px 0 0 var(--glass-hi)}
+  .glass:hover::before{opacity:1}
+  .glass>*{position:relative;z-index:1}
 
   /* ---- about ---- */
   .about-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:44px;align-items:start}
@@ -108,42 +171,33 @@
   .about-grid p b{color:var(--ink);font-weight:600}
   .mini-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
   .mini-stat{font-family:'JetBrains Mono';font-size:12.5px;color:var(--mut);
-    border:1px solid var(--line);border-radius:100px;padding:7px 14px;background:var(--panel2)}
+    border:1px solid var(--glass-border);border-radius:100px;padding:7px 14px;
+    background:linear-gradient(135deg,var(--glass),var(--glass-2));backdrop-filter:blur(8px)}
   .mini-stat b{color:var(--teal);font-weight:600}
-  .pillar{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
-    backdrop-filter:blur(8px);margin-bottom:14px;transition:border-color .25s,transform .25s}
-  .pillar:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .pillar{border-radius:16px;padding:20px 22px;margin-bottom:14px}
   .pillar .ph{display:flex;align-items:center;gap:10px;margin-bottom:6px}
   .pillar .ic{width:11px;height:11px;border-radius:3px}
   .pillar h3{font-family:'Space Grotesk';font-size:17px;font-weight:600}
   .pillar p{font-family:'JetBrains Mono';font-size:12.5px;color:var(--mut);margin:0}
 
-  /* ---- cards grid (skills / work) ---- */
+  /* ---- cards grid ---- */
   .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;
-    backdrop-filter:blur(8px);transition:border-color .25s,transform .25s}
-  .card:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .card{border-radius:18px;padding:22px}
   .card-head{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-  .card-head .ic{width:10px;height:10px;border-radius:3px;flex:none}
+  .card-head .ic{width:10px;height:10px;border-radius:3px;flex:none;box-shadow:0 0 10px currentColor}
   .card-head h3{font-family:'Space Grotesk';font-size:16px;font-weight:600}
-  .card > p{color:var(--mut);font-size:14.5px;margin-bottom:14px}
+  .card p{color:var(--mut);font-size:14.5px;margin-bottom:14px}
   .tags{display:flex;flex-wrap:wrap;gap:7px}
   .tag{font-family:'JetBrains Mono';font-size:11.5px;color:var(--mut);
-    background:rgba(139,108,246,.07);border:1px solid var(--line);
-    padding:4px 9px;border-radius:7px;transition:color .2s}
-  .card:hover .tag{color:var(--ink)}
+    background:rgba(139,108,246,.08);border:1px solid var(--glass-border);
+    padding:4px 9px;border-radius:7px;transition:color .2s,background .2s}
+  .card:hover .tag{color:var(--ink);background:rgba(139,108,246,.14)}
 
   /* ---- featured project ---- */
-  .feature{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px;
-    backdrop-filter:blur(8px);display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-  .feature .fl{min-width:0}
+  .feature{border-radius:20px;padding:30px;display:grid;grid-template-columns:1fr;gap:16px;align-items:start}
   .feature .ftag{font-family:'JetBrains Mono';font-size:11.5px;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
   .feature h3{font-family:'Space Grotesk';font-size:22px;font-weight:600;margin-bottom:8px}
-  .feature p{color:var(--mut);font-size:15px;margin-bottom:16px;max-width:560px}
-  .demo-btn{font-family:'JetBrains Mono';font-size:13px;font-weight:600;padding:13px 20px;border-radius:11px;
-    background:var(--grad);color:#0A0A18;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
-    transition:transform .18s,box-shadow .18s;box-shadow:0 10px 28px -12px rgba(45,212,191,.7)}
-  .demo-btn:hover{transform:translateY(-2px)}
+  .feature p{color:var(--mut);font-size:15px;margin-bottom:16px;max-width:640px}
 
   /* ---- timeline ---- */
   .tl{position:relative;padding-left:30px}
@@ -151,56 +205,62 @@
     background:linear-gradient(var(--violet),var(--teal),transparent)}
   .tl-item{position:relative;margin-bottom:28px}
   .tl-item::before{content:"";position:absolute;left:-30px;top:5px;width:13px;height:13px;border-radius:50%;
-    background:var(--bg);border:2px solid var(--violet);box-shadow:0 0 0 4px rgba(139,108,246,.12)}
+    background:var(--bg);border:2px solid var(--violet);box-shadow:0 0 0 4px rgba(139,108,246,.12),0 0 14px rgba(139,108,246,.5)}
   .tl-item .when{font-family:'JetBrains Mono';font-size:12px;color:var(--mut2);margin-bottom:3px}
   .tl-item h3{font-family:'Space Grotesk';font-size:18px;font-weight:600}
   .tl-item .org{color:var(--teal);font-size:14px;margin-bottom:8px}
-  .tl-item p{color:var(--mut);font-size:14.5px}
+  .tl-item ul{color:var(--mut);font-size:14.5px;padding-left:18px;margin:0}
+  .tl-item ul li{margin-bottom:5px}
+
+  /* ---- education ---- */
+  .edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .edu-card{border-radius:16px;padding:22px}
+  .edu-card h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;margin-bottom:4px}
+  .edu-card .edu-school{color:var(--teal);font-size:13.5px;margin-bottom:6px}
+  .edu-card .edu-score{font-family:'JetBrains Mono';font-size:12.5px;color:var(--mut)}
 
   /* ---- exploring ---- */
   .explore-note{font-family:'JetBrains Mono';font-size:12.5px;color:var(--amber);
     background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.22);
-    padding:8px 14px;border-radius:10px;display:inline-block;margin-bottom:24px}
+    padding:8px 14px;border-radius:10px;display:inline-block;margin-bottom:24px;backdrop-filter:blur(8px)}
   .explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .explore-card{background:var(--panel);border:1px dashed var(--line-strong);border-radius:16px;padding:22px;backdrop-filter:blur(8px)}
+  .explore-card{border-radius:16px;padding:22px;border-style:dashed!important}
   .explore-card h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;margin-bottom:8px}
   .explore-card p{color:var(--mut);font-size:14px}
 
   /* ---- contact ---- */
-  .contact-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;
-    padding:48px 40px;text-align:center;backdrop-filter:blur(8px)}
+  .contact-card{border-radius:24px;padding:48px 40px;text-align:center}
   .contact-card h2{margin-bottom:14px}
   .contact-card p{color:var(--mut);max-width:480px;margin:0 auto 28px;font-size:16.5px}
   .contact-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .clink{font-family:'JetBrains Mono';font-size:13.5px;padding:12px 18px;border-radius:11px;
-    border:1px solid var(--line-strong);display:inline-flex;align-items:center;gap:8px;
-    transition:background .2s,border-color .2s,transform .18s}
-  .clink:hover{background:rgba(139,108,246,.1);border-color:var(--violet);transform:translateY(-2px)}
+  .clink{font-family:'JetBrains Mono';font-size:13.5px;padding:12px 18px;border-radius:12px;
+    border:1px solid var(--glass-border);display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,var(--glass),var(--glass-2));backdrop-filter:blur(10px);
+    transition:border-color .2s,transform .18s}
+  .clink:hover{border-color:var(--violet);transform:translateY(-2px)}
 
-  footer{padding:34px 0 44px;border-top:1px solid var(--line);text-align:center}
+  footer{padding:34px 0 44px;border-top:1px solid var(--glass-border);text-align:center}
   footer p{font-family:'JetBrains Mono';font-size:12px;color:var(--mut2)}
 
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-  .reveal.in{opacity:1;transform:none}
+  .reveal{opacity:0;translate:0 26px;transition:opacity .7s ease,translate .7s ease}
+  .reveal.in{opacity:1;translate:0 0}
 
   /* ---- responsive ---- */
-  @media(max-width:1024px){
-    :root{--maxw:920px}
-    .wrap{padding:0 26px}
-    .about-grid{gap:34px}
-  }
+  @media(max-width:1024px){:root{--maxw:920px}.wrap{padding:0 26px}.about-grid{gap:34px}}
   @media(max-width:880px){
-    .navlinks{position:fixed;top:62px;left:0;right:0;flex-direction:column;gap:0;
-      background:rgba(12,12,28,.98);backdrop-filter:blur(14px);padding:8px 0;
-      border-bottom:1px solid var(--line);transform:translateY(-150%);transition:transform .32s;align-items:stretch}
-    .navlinks.show{transform:translateY(0)}
-    .navlinks a{padding:15px 26px;font-size:15px}
-    .navlinks .cv-btn{margin:10px 26px;justify-content:center}
+    .navlinks{position:absolute;top:calc(100% + 10px);left:0;right:0;flex-direction:column;gap:0;
+      background:linear-gradient(135deg,rgba(20,20,40,.9),rgba(16,16,32,.85));
+      backdrop-filter:blur(20px) saturate(var(--sat));-webkit-backdrop-filter:blur(20px) saturate(var(--sat));
+      padding:8px 0;border-radius:16px;border:1px solid var(--glass-border);
+      box-shadow:0 18px 50px -18px rgba(0,0,0,.7);
+      opacity:0;translate:0 -12px;pointer-events:none;transition:opacity .28s,translate .28s;align-items:stretch}
+    .navlinks.show{opacity:1;translate:0 0;pointer-events:auto}
+    .navlinks a{padding:14px 22px;font-size:15px}
+    .navlinks .cv-btn{margin:10px 22px;justify-content:center}
     .menu-toggle{display:flex}
     .about-grid{grid-template-columns:1fr;gap:28px}
     .explore-grid{grid-template-columns:1fr}
-    .feature{grid-template-columns:1fr;gap:18px}
-    .demo-btn{justify-self:start}
+    .edu-grid{grid-template-columns:1fr}
     section{padding:76px 0}
   }
   @media(max-width:680px){
@@ -214,332 +274,414 @@
     .cta-row{width:100%}
     .btn-primary,.btn-ghost{flex:1 1 auto;justify-content:center;text-align:center}
     .clink{flex:1 1 auto;justify-content:center}
+    .blob{filter:blur(55px)}
   }
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
     html{scroll-behavior:auto}
-    .reveal{opacity:1;transform:none}
+    .reveal{opacity:1;translate:0 0}
+    .hero-inner>*{opacity:1}
+    .blob{display:none}
   }
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
 
-/* ============================ DATA ============================ */
-const NAVLINKS = [["About","#about"],["Skills","#skills"],["Work","#work"],["Path","#path"],["Contact","#contact"]];
+<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="bg-noise"></div>
 
-const PILLARS = [
-  { t:"AI Engineering", d:"Agents · LLMs · Gen AI", c:"var(--violet)" },
-  { t:"Data & RAG", d:"Vector DBs · Neo4j · Knowledge graphs", c:"var(--teal)" },
-  { t:"Backend & APIs", d:"FastAPI · FastMCP · async Python", c:"var(--amber)" },
-];
-
-const SKILLS = [
-  { t:"Agentic Systems", c:"var(--violet)",
-    tags:["AI coding agents","MCP tools & servers","Agent-as-tool","Tool calling","Planning & orchestration","Task routing","Memory (temp & persistent)","Guardrails & validation"] },
-  { t:"LLM Orchestration", c:"var(--violet)",
-    tags:["LangChain","LangGraph","OpenAI Agents SDK","Google ADK","FastMCP","Langflow","Function calling","Multi-agent systems"] },
-  { t:"Prompt Engineering", c:"var(--coral)",
-    tags:["Zero / one / few-shot","Dynamic prompting","Contextual prompting","Role-based prompting","Prompt chaining","Response control"] },
-  { t:"RAG & Retrieval", c:"var(--teal)",
-    tags:["Embeddings","Semantic search","Hybrid search","Re-ranking","Metadata-aware retrieval","Graph-enhanced RAG","Vectorless RAG","Chunking"] },
-  { t:"Graph & Knowledge Systems", c:"var(--teal)",
-    tags:["Neo4j","FalkorDB","Knowledge-graph design","Graph-based retrieval","Structured + unstructured data"] },
-  { t:"Python & Backend", c:"var(--amber)",
-    tags:["Python (sync & async)","OOP & modular design","FastAPI","FastMCP","Uvicorn","REST API design"] },
-  { t:"Web, Data & Tools", c:"var(--coral)",
-    tags:["HTML","CSS","JavaScript","TypeScript","PHP","MySQL","Streamlit","Git","GitLab","Postman","JIRA APIs","CANoe"] },
-];
-
-const WORK = [
-  { t:"AI tools & assistants", c:"var(--violet)",
-    d:"Internal productivity tools and assistants that put LLMs to work on real KPIT workflows.",
-    tags:["Python","FastAPI","Streamlit","LLM APIs"] },
-  { t:"Agentic workflows", c:"var(--teal)",
-    d:"Custom MCP tools and servers with multi-step planning, structured execution, and persistent memory.",
-    tags:["MCP tools","Tool calling","Prompt chaining","Memory"] },
-  { t:"RAG systems", c:"var(--coral)",
-    d:"Retrieval pipelines over structured and unstructured data, including graph-enhanced retrieval.",
-    tags:["Embeddings","Hybrid search","Neo4j","Re-ranking"] },
-];
-
-const FEATURED = {
-  name:"Admission Portal for SSC Students",
-  desc:"A web application that streamlines the SSC student admission process end to end — from applications to record handling.",
-  stack:["HTML","CSS","JavaScript","jQuery","Bootstrap","PHP","MySQL"],
-  demo:"https://ycp-admission-portal.000webhostapp.com",
-};
-
-const PATH = [
-  { when:"Apr 2025 — Present", role:"Sr. Engineer — AI Engineering", org:"KPIT Technologies, Pune",
-    desc:"Building AI-powered tools and internal assistants — agentic workflows with custom MCP tooling, RAG systems, memory patterns, and scalable sync/async Python backends." },
-  { when:"Jun 2023 — Mar 2025", role:"Infotainment System Test Engineer", org:"KPIT Technologies, Pune",
-    desc:"Functional, regression and integration testing for automotive infotainment software — validating multimedia behaviour and driving defect analysis with engineering teams." },
-  { when:"Jan 2022 — May 2023", role:"Trainee Engineer", org:"KPIT Technologies, Pune",
-    desc:"Software QA and engineering validation in automotive testing — test execution, documentation, and system verification." },
-  { when:"2021", role:"Intern", org:"KPIT Technologies, Pune",
-    desc:"First exposure to automotive software validation and quality workflows." },
-];
-
-const EXPLORING = [
-  { t:"Model fine-tuning", d:"LoRA / QLoRA and open-source model adaptation for domain-specific use cases." },
-  { t:"Eval & observability", d:"Measuring, tracing, and evaluating the quality of agents and RAG systems." },
-  { t:"Reliability & performance", d:"Safety, guardrails, and performance optimisation for production AI." },
-];
-
-const RESUME_FILE = "Sumit_Biranje_Resume.pdf";
-const LINKEDIN = "https://www.linkedin.com/in/sumit-biranje-";
-const GITHUB = "https://github.com/sumitbiranje"; // verify this is your username
-const EMAIL = "sumitbiranje9@gmail.com";
-
-/* ====================== KNOWLEDGE GRAPH ====================== */
-function GraphCanvas(){
-  const ref = useRef(null);
-  useEffect(()=>{
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const cv = ref.current; const ctx = cv.getContext("2d");
-    let raf, W, H, dpr, small=false;
-    const palette = ["#8B6CF6","#2DD4BF","#FB7185","#FBBF24"];
-    const labels = ["Agents","LLM Orchestration","Knowledge Graphs","RAG","Prompt Eng","MCP Tools","FastAPI","Memory","Vector Search","Python"];
-    const labelsShort = ["Agents","LLMs","Graphs","RAG","Prompts","MCP","FastAPI","Memory","Vectors","Python"];
-    const edges = [[0,1],[0,5],[0,7],[1,3],[1,4],[2,3],[2,8],[3,8],[5,6],[6,9],[9,1],[7,0],[4,1],[8,2],[6,0]];
-    let nodes = [], mouse={x:-9999,y:-9999}, t=0;
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio||1, 2);
-      W = cv.clientWidth; H = cv.clientHeight || window.innerHeight;
-      cv.width = Math.max(1,W*dpr); cv.height = Math.max(1,H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    function seed(){
-      small = W<640;
-      const L = small?labelsShort:labels;
-      nodes = L.map((lab,i)=>({ lab, c:palette[i%palette.length],
-        x:Math.random()*W, y:Math.random()*H,
-        vx:(Math.random()-.5)*0.12, vy:(Math.random()-.5)*0.12,
-        r:4+Math.random()*3, seed:Math.random()*1000 }));
-    }
-    function draw(){
-      t += 0.005; ctx.clearRect(0,0,W,H);
-      for(const [a,b] of edges){
-        const n1=nodes[a], n2=nodes[b]; if(!n1||!n2) continue;
-        const dist=Math.hypot(n2.x-n1.x, n2.y-n1.y);
-        const g=ctx.createLinearGradient(n1.x,n1.y,n2.x,n2.y);
-        g.addColorStop(0,n1.c); g.addColorStop(1,n2.c);
-        ctx.strokeStyle=g; ctx.globalAlpha=Math.max(0.05, 0.22 - dist/2600);
-        ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(n1.x,n1.y); ctx.lineTo(n2.x,n2.y); ctx.stroke();
-      }
-      ctx.globalAlpha=1;
-      for(const n of nodes){
-        if(!reduce){
-          n.x += n.vx + Math.sin(t+n.seed)*0.06; n.y += n.vy + Math.cos(t+n.seed)*0.06;
-          if(n.x<20||n.x>W-20) n.vx*=-1; if(n.y<20||n.y>H-20) n.vy*=-1;
-          n.x=Math.max(16,Math.min(W-16,n.x)); n.y=Math.max(16,Math.min(H-16,n.y));
-        }
-        const near=Math.hypot(mouse.x-n.x, mouse.y-n.y)<120; const r=n.r*(near?1.7:1);
-        const glow=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*5);
-        glow.addColorStop(0,n.c+"55"); glow.addColorStop(1,n.c+"00");
-        ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(n.x,n.y,r*5,0,7); ctx.fill();
-        ctx.fillStyle=n.c; ctx.beginPath(); ctx.arc(n.x,n.y,r,0,7); ctx.fill();
-        ctx.globalAlpha=near?1:0.5; ctx.fillStyle=near?"#EDEDFB":"#9293BE";
-        ctx.font=`${near?(small?11:12):(small?9.5:10.5)}px 'JetBrains Mono', monospace`;
-        ctx.fillText(n.lab, n.x+r+7, n.y+3); ctx.globalAlpha=1;
-      }
-      raf=requestAnimationFrame(draw);
-    }
-    function onMove(e){ const r=cv.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; }
-    function onLeave(){ mouse.x=-9999; mouse.y=-9999; }
-    function onResize(){ resize(); seed(); }
-    resize(); seed(); draw();
-    window.addEventListener("resize",onResize);
-    cv.addEventListener("mousemove",onMove); cv.addEventListener("mouseleave",onLeave);
-    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener("resize",onResize);
-      cv.removeEventListener("mousemove",onMove); cv.removeEventListener("mouseleave",onLeave); };
-  },[]);
-  return <canvas id="graph" ref={ref}></canvas>;
-}
-
-/* ====================== HELPERS ====================== */
-function useReveal(){
-  useEffect(()=>{
-    const els=document.querySelectorAll(".reveal");
-    const io=new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
-    },{threshold:0.12});
-    els.forEach(el=>io.observe(el)); return ()=>io.disconnect();
-  },[]);
-}
-const DL=({size=15})=><svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>;
-const Arrow=()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>;
-
-/* ====================== NAV ====================== */
-function Nav(){
-  const [scrolled,setScrolled]=useState(false);
-  const [open,setOpen]=useState(false);
-  useEffect(()=>{ const f=()=>setScrolled(window.scrollY>20); window.addEventListener("scroll",f); return ()=>window.removeEventListener("scroll",f); },[]);
-  return (
-    <nav className={scrolled?"scrolled":""}>
-      <div className="wrap navrow">
-        <a className="brand" href="#top"><span className="dot"></span>Sumit Biranje</a>
-        <div className={"navlinks"+(open?" show":"")}>
-          {NAVLINKS.map(([t,h])=> <a key={h} href={h} onClick={()=>setOpen(false)}>{t}</a>)}
-          <a className="cv-btn" href={RESUME_FILE} download onClick={()=>setOpen(false)}><DL size={13}/>Download CV</a>
-        </div>
-        <button className="menu-toggle" onClick={()=>setOpen(o=>!o)} aria-label="Menu">{open?"\u2715":"\u2630"}</button>
+<!-- ====== NAV ====== -->
+<nav id="mainNav">
+  <div class="wrap">
+    <div class="navrow">
+      <a class="brand" href="#top"><span class="dot"></span>Sumit Biranje</a>
+      <div class="navlinks" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#path">Path</a>
+        <a href="#contact">Contact</a>
+        <a class="cv-btn" href="Sumit_Biranje_Resume.pdf" download>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+          Download CV
+        </a>
       </div>
-    </nav>
-  );
-}
-
-/* ====================== APP ====================== */
-function App(){
-  useReveal();
-  return (
-    <div id="top">
-      <Nav/>
-      <header className="hero">
-        <GraphCanvas/>
-        <div className="hero-veil"></div>
-        <div className="wrap hero-inner">
-          <div className="badge"><span className="pulse"></span>AVAILABLE FOR WORK · AI ENGINEER</div>
-          <h1 className="name">Sumit <span className="g">Biranje</span></h1>
-          <p className="lead">I build scalable <b>AI-driven tools</b> — coding agents, multi-agent systems, and RAG pipelines — with the <b>backend engineering</b> to run them in production.</p>
-          <p className="roleline">LangChain · LangGraph · FastMCP · FastAPI · Neo4j · RAG</p>
-          <div className="cta-row">
-            <a className="btn-primary" href={RESUME_FILE} download><DL/>Download CV</a>
-            <a className="btn-ghost" href="#work">View work</a>
-          </div>
-        </div>
-        <div className="scroll-hint">SCROLL<div className="bar"></div></div>
-      </header>
-
-      {/* ABOUT */}
-      <section id="about">
-        <div className="wrap">
-          <div className="sec-label">About</div>
-          <div className="about-grid">
-            <div className="reveal">
-              <h2>From infotainment testing to AI engineering.</h2>
-              <p>I started in automotive software quality — functional, regression and integration testing for in-vehicle infotainment systems. That taught me to care about <b>reliability and what it actually takes to ship</b>.</p>
-              <p>Over <b>4+ years at KPIT</b>, I moved into AI engineering. Today I build AI-powered internal tools and assistants, <b>agentic workflows</b> with custom MCP tooling, and <b>RAG systems</b> — all backed by production Python APIs.</p>
-              <p>I focus on architecture, memory, safety, and execution reliability — the things that decide whether an AI system holds up in real use.</p>
-              <div className="mini-stats">
-                <span className="mini-stat"><b>4+ yrs</b> at KPIT</span>
-                <span className="mini-stat"><b>QA</b> → AI engineering</span>
-                <span className="mini-stat"><b>Pune,</b> India</span>
-              </div>
-            </div>
-            <div className="reveal">
-              {PILLARS.map(p=>(
-                <div className="pillar" key={p.t}>
-                  <div className="ph"><span className="ic" style={{background:p.c}}></span><h3>{p.t}</h3></div>
-                  <p>{p.d}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SKILLS */}
-      <section id="skills">
-        <div className="wrap">
-          <div className="sec-label">Toolkit</div>
-          <h2 className="reveal">What I work with</h2>
-          <p className="sec-intro reveal" style={{marginBottom:36}}>Grouped by where each piece sits in an AI system — from agents down to the backend.</p>
-          <div className="grid2">
-            {SKILLS.map((s,i)=>(
-              <div className="card reveal" key={s.t} style={{transitionDelay:(i%2)*0.06+"s"}}>
-                <div className="card-head"><span className="ic" style={{background:s.c}}></span><h3>{s.t}</h3></div>
-                <div className="tags">{s.tags.map(tg=><span className="tag" key={tg}>{tg}</span>)}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WORK */}
-      <section id="work">
-        <div className="wrap">
-          <div className="sec-label">What I build</div>
-          <h2 className="reveal">AI engineering at KPIT</h2>
-          <p className="sec-intro reveal" style={{marginBottom:36}}>The kinds of systems I work on day to day.</p>
-          <div className="grid2" style={{marginBottom:28}}>
-            {WORK.map((w,i)=>(
-              <div className="card reveal" key={w.t} style={{transitionDelay:(i%2)*0.06+"s"}}>
-                <div className="card-head"><span className="ic" style={{background:w.c}}></span><h3>{w.t}</h3></div>
-                <p>{w.d}</p>
-                <div className="tags">{w.tags.map(tg=><span className="tag" key={tg}>{tg}</span>)}</div>
-              </div>
-            ))}
-          </div>
-          <div className="feature reveal">
-            <div className="fl">
-              <div className="ftag">Featured project</div>
-              <h3>{FEATURED.name}</h3>
-              <p>{FEATURED.desc}</p>
-              <div className="tags">{FEATURED.stack.map(s=><span className="tag" key={s}>{s}</span>)}</div>
-            </div>
-            <a className="demo-btn" href={FEATURED.demo} target="_blank" rel="noopener">Live demo <Arrow/></a>
-          </div>
-        </div>
-      </section>
-
-      {/* PATH */}
-      <section id="path">
-        <div className="wrap">
-          <div className="sec-label">Path</div>
-          <h2 className="reveal" style={{marginBottom:40}}>Professional journey</h2>
-          <div className="tl">
-            {PATH.map((e,i)=>(
-              <div className="tl-item reveal" key={i}>
-                <div className="when">{e.when}</div>
-                <h3>{e.role}</h3>
-                <div className="org">{e.org}</div>
-                <p>{e.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EXPLORING */}
-      <section id="exploring">
-        <div className="wrap">
-          <div className="sec-label">On the bench</div>
-          <h2 className="reveal">Currently exploring</h2>
-          <p className="reveal"><span className="explore-note">Active learning — not yet part of my core toolkit above.</span></p>
-          <div className="explore-grid">
-            {EXPLORING.map(e=>(
-              <div className="explore-card reveal" key={e.t}><h3>{e.t}</h3><p>{e.d}</p></div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT */}
-      <section id="contact">
-        <div className="wrap">
-          <div className="contact-card reveal">
-            <div className="sec-label" style={{justifyContent:"center"}}>Get in touch</div>
-            <h2>Let&rsquo;s build intelligent systems.</h2>
-            <p>Open to AI Engineer, LLM Engineer, Applied AI, and Agentic AI roles.</p>
-            <div className="contact-links">
-              <a className="clink" href={"mailto:"+EMAIL}>{"\u2709"} Email</a>
-              <a className="clink" href={LINKEDIN} target="_blank" rel="noopener">in LinkedIn <Arrow/></a>
-              <a className="clink" href={GITHUB} target="_blank" rel="noopener">GitHub <Arrow/></a>
-              <a className="clink" href={RESUME_FILE} download><DL/> Résumé</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer><div className="wrap"><p>Designed & built by Sumit Biranje · Pune, India · {new Date().getFullYear()}</p></div></footer>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
     </div>
-  );
-}
+  </div>
+</nav>
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+<!-- ====== HERO ====== -->
+<header class="hero" id="top">
+  <canvas id="graph"></canvas>
+  <div class="hero-veil"></div>
+  <div class="wrap hero-inner">
+    <div class="badge"><span class="pulse"></span>AVAILABLE FOR WORK · AI ENGINEER</div>
+    <h1 class="name">Sumit <span class="g">Biranje</span></h1>
+    <p class="lead">I build <b>AI-driven tools</b>, multi-agent systems and production backend systems — strong in <b>LLM orchestration</b>, agentic workflows, RAG pipelines and <b>graph databases</b>.</p>
+    <p class="roleline">LangChain · LangGraph · FastMCP · FastAPI · Neo4j · FalkorDB · RAG</p>
+    <div class="cta-row">
+      <a class="btn-primary" href="Sumit_Biranje_Resume.pdf" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+        Download CV
+      </a>
+      <a class="btn-ghost" href="#projects">View projects</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL<div class="bar"></div></div>
+</header>
+
+<!-- ====== ABOUT ====== -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-label">About</div>
+    <div class="about-grid">
+      <div class="reveal">
+        <h2>From infotainment testing to AI engineering.</h2>
+        <p>I started in automotive software quality — functional, regression and integration testing for in-vehicle infotainment systems. That taught me to care about <b>reliability and what it actually takes to ship</b>.</p>
+        <p>Over <b>4+ years at KPIT</b>, I moved into AI engineering. Today I build AI-powered internal tools and assistants, <b>agentic workflows</b> with custom MCP tooling, and <b>RAG systems</b> — all backed by production Python APIs with solid architecture, memory, safety and execution reliability.</p>
+        <p>Focused on practical AI systems — on a foundation of <b>automotive software quality</b>.</p>
+        <div class="mini-stats">
+          <span class="mini-stat"><b>4+ yrs</b> at KPIT</span>
+          <span class="mini-stat"><b>QA</b> → AI Engineering</span>
+          <span class="mini-stat"><b>Pimpri-Chinchwad,</b> MH</span>
+        </div>
+      </div>
+      <div class="reveal" id="pillarsContainer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SKILLS ====== -->
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-label">Toolkit</div>
+    <h2 class="reveal">What I work with</h2>
+    <p class="sec-intro reveal" style="margin-bottom:36px">Grouped by where each piece sits in an AI system — from agents down to the backend.</p>
+    <div class="grid2" id="skillsGrid"></div>
+  </div>
+</section>
+
+<!-- ====== PROJECTS ====== -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-label">Key projects</div>
+    <h2 class="reveal">AI engineering at KPIT</h2>
+    <p class="sec-intro reveal" style="margin-bottom:36px">Production systems I&rsquo;ve built — from code knowledge graphs to multi-agent review pipelines.</p>
+    <div class="feature glass reveal" id="featuredProject" style="margin-bottom:20px"></div>
+    <div class="grid2" id="projectGrid"></div>
+  </div>
+</section>
+
+<!-- ====== PATH ====== -->
+<section id="path">
+  <div class="wrap">
+    <div class="sec-label">Path</div>
+    <h2 class="reveal" style="margin-bottom:40px">Professional journey</h2>
+    <div class="tl" id="timeline"></div>
+  </div>
+</section>
+
+<!-- ====== EDUCATION ====== -->
+<section id="education">
+  <div class="wrap">
+    <div class="sec-label">Education</div>
+    <h2 class="reveal" style="margin-bottom:28px">Academic background</h2>
+    <div class="edu-grid" id="eduGrid"></div>
+  </div>
+</section>
+
+<!-- ====== EXPLORING ====== -->
+<section id="exploring">
+  <div class="wrap">
+    <div class="sec-label">On the bench</div>
+    <h2 class="reveal">Currently exploring</h2>
+    <p class="reveal"><span class="explore-note">Active learning — not yet part of my core toolkit above.</span></p>
+    <div class="explore-grid" id="exploreGrid"></div>
+  </div>
+</section>
+
+<!-- ====== CONTACT ====== -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-card glass reveal">
+      <div class="sec-label" style="justify-content:center">Get in touch</div>
+      <h2>Let&rsquo;s build intelligent systems.</h2>
+      <p>Open to AI Engineer, LLM Engineer, Applied AI, and Agentic AI roles.</p>
+      <div class="contact-links">
+        <a class="clink" href="mailto:sumitbiranje9@gmail.com">&#9993; Email</a>
+        <a class="clink" href="https://www.linkedin.com/in/sumit-biranje-" target="_blank" rel="noopener">in LinkedIn
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+        <a class="clink" href="https://github.com/sumitbiranje" target="_blank" rel="noopener">GitHub
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+        <a class="clink" href="Sumit_Biranje_Resume.pdf" download>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+          Résumé
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><p>Designed &amp; built by Sumit Biranje · Pimpri-Chinchwad, India · <span id="year"></span></p></div></footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============================ DATA ============================ */
+  var PILLARS = [
+    { t: "AI Engineering", d: "Agents · LLMs · Multi-agent systems", c: "var(--violet)" },
+    { t: "Data & RAG", d: "Neo4j · FalkorDB · Knowledge graphs · Retrieval", c: "var(--teal)" },
+    { t: "Backend & APIs", d: "FastAPI · FastMCP · async Python · REST", c: "var(--amber)" }
+  ];
+
+  var SKILLS = [
+    { t: "Agentic Systems", c: "var(--violet)",
+      tags: ["Multi-agent orchestration","MCP tools & servers","Agent-as-tool","Tool calling","Planning & task routing","Memory (short & long-term)","Guardrails","Evaluation & observability"] },
+    { t: "LLM Orchestration & Frameworks", c: "var(--violet)",
+      tags: ["LangChain","LangGraph","OpenAI Agents SDK","Google ADK","FastMCP","Pydantic structured output","Function calling","Multi-agent systems"] },
+    { t: "Prompt Engineering", c: "var(--coral)",
+      tags: ["Zero / one / few-shot","Dynamic prompting","Contextual prompting","Role-based prompting","Prompt chaining","Response control"] },
+    { t: "RAG & Retrieval", c: "var(--teal)",
+      tags: ["Embeddings","Semantic search","Hybrid search","Re-ranking","Metadata-aware retrieval","Graph-enhanced RAG","Vectorless RAG","Chunking"] },
+    { t: "Graph & Knowledge Systems", c: "var(--teal)",
+      tags: ["Neo4j","FalkorDB","Cypher","Ontology & knowledge-graph design","Node traversal","Graph-based retrieval","Structured + unstructured data"] },
+    { t: "Python & Backend", c: "var(--amber)",
+      tags: ["Python (sync & async, OOP)","FastAPI","FastMCP","Uvicorn","REST APIs","asyncio / ThreadPoolExecutor","Design patterns"] },
+    { t: "Web, Data & Tools", c: "var(--coral)",
+      tags: ["HTML","CSS","JavaScript","TypeScript","PHP","MySQL","Flask","Streamlit","DuckDB","tree-sitter","Git","GitLab","Postman","JIRA APIs","CANoe"] },
+    { t: "AI-Assisted Development", c: "var(--violet)",
+      tags: ["Claude Code","OpenAI Codex","GitHub Copilot","AI coding agents","Productivity assistants"] }
+  ];
+
+  var PROJECTS = [
+    { t: "Code-to-Knowledge-Graph Pipeline", c: "var(--teal)",
+      d: "Builds the code knowledge graph that powers the regression test selector. Parses a multi-language codebase (Java, Kotlin, C, C++, XML, HAL) with tree-sitter and import resolvers — linking method definitions to usages across files — then ingests nodes, properties and relationships into the graph.",
+      tags: ["Python","tree-sitter","Neo4j / FalkorDB","Multi-language parsing"] },
+    { t: "Requirement-to-Code Traceability", c: "var(--violet)",
+      d: "Maps software requirements to the code that implements them. An agent explores a module\u2019s codebase and extracts its behaviour flow, then maps each requirement to relevant code elements — cross-referencing SRS and SDS specifications.",
+      tags: ["Python","Multi-agent framework","SRS / SDS analysis"] },
+    { t: "Multi-Agent Test Case Reviewer", c: "var(--coral)",
+      d: "Automatically reviews manually written test cases against guidelines and requirement traceability, producing structured feedback reports. Built with seven specialized review agents and Pydantic-structured output, with parallel data ingestion.",
+      tags: ["Python","OpenAI Agents SDK","Pydantic","Streamlit"] },
+    { t: "Automation Feasibility Analyzer", c: "var(--amber)",
+      d: "Evaluates whether manual test cases can be automated and outputs a per-test feasibility verdict with justification. A config-driven LangChain pipeline with schema and criteria externalized to JSON, Pydantic-validated output, and a wizard-style UI.",
+      tags: ["Python","LangChain","Pydantic","Streamlit"] }
+  ];
+
+  var FEATURED = {
+    name: "AI-Assisted Regression Test Selection",
+    desc: "Automatically decides which regression tests to run when a software build changes. Diffs two builds, extracts the changed code entities, and traces their impact through a code knowledge graph (FalkorDB / Neo4j) via node traversal — with tree-sitter multi-language parsing and a crash-resilient, checkpointed pipeline.",
+    stack: ["Python","FalkorDB","Neo4j","tree-sitter","DuckDB","Streamlit"]
+  };
+
+  var PATH = [
+    { when: "Apr 2025 — Present", role: "Sr. Engineer — AI Engineering", org: "KPIT Technologies, Pune",
+      bullets: [
+        "Build production AI tools and internal assistants — agentic workflows with custom MCP tooling, RAG systems and short- and long-term agent memory, on scalable FastAPI backends across sync and async Python.",
+        "Ship with evaluation, observability and guardrails for reliable, cost-aware execution."
+      ] },
+    { when: "Jun 2023 — Mar 2025", role: "Infotainment System Test Engineer", org: "KPIT Technologies, Pune",
+      bullets: [
+        "Authored functional test cases and performed L1 reviews of cases written by junior engineers, backed by strong SRS understanding.",
+        "Ran functional, regression and integration testing for automotive infotainment software; among the highest defect loggers on the team, surfacing ad-hoc and exploratory defects beyond planned cases.",
+        "Recognised with multiple customer and internal-management appreciations; unblocked critical internal features."
+      ] },
+    { when: "Jan 2022 — May 2023", role: "Trainee Engineer", org: "KPIT Technologies, Pune",
+      bullets: [
+        "Interpreted requirement, screen-display and design documents to design test cases.",
+        "Created single-function, interrupt-handling and multi-device-switching test cases."
+      ] },
+    { when: "2021", role: "Intern", org: "KPIT Technologies, Pune",
+      bullets: [
+        "First exposure to automotive software validation and quality workflows."
+      ] }
+  ];
+
+  var EDUCATION = [
+    { degree: "Diploma, Computer Science & Engineering", school: "DKTE Yashwantrao Chavan Polytechnic, Ichalkaranji", score: "78.36%" },
+    { degree: "SSC", school: "Govindrao High School, Ichalkaranji", score: "72.40%" }
+  ];
+
+  var EXPLORING = [
+    { t: "Model fine-tuning", d: "LoRA / QLoRA and open-source model adaptation for domain-specific tasks." },
+    { t: "Model serving & inference", d: "vLLM, quantization, and local / air-gapped inference with Ollama." },
+    { t: "MLOps & deployment", d: "Docker, CI/CD, cloud, and monitoring for AI services." }
+  ];
+
+  /* ============================ HELPERS ============================ */
+  function makeTags(tags) {
+    return tags.map(function (tg) { return '<span class="tag">' + tg + '</span>'; }).join("");
+  }
+
+  /* ============================ BUILD SECTIONS ============================ */
+  document.getElementById("pillarsContainer").innerHTML = PILLARS.map(function (p) {
+    return '<div class="pillar glass">' +
+      '<div class="ph"><span class="ic" style="background:' + p.c + '"></span><h3>' + p.t + '</h3></div>' +
+      '<p>' + p.d + '</p></div>';
+  }).join("");
+
+  document.getElementById("skillsGrid").innerHTML = SKILLS.map(function (s) {
+    return '<div class="card glass reveal">' +
+      '<div class="card-head"><span class="ic" style="background:' + s.c + '"></span><h3>' + s.t + '</h3></div>' +
+      '<div class="tags">' + makeTags(s.tags) + '</div></div>';
+  }).join("");
+
+  document.getElementById("featuredProject").innerHTML =
+    '<div><div class="ftag">Featured project</div>' +
+    '<h3>' + FEATURED.name + '</h3>' +
+    '<p>' + FEATURED.desc + '</p>' +
+    '<div class="tags">' + makeTags(FEATURED.stack) + '</div></div>';
+
+  document.getElementById("projectGrid").innerHTML = PROJECTS.map(function (p) {
+    return '<div class="card glass reveal">' +
+      '<div class="card-head"><span class="ic" style="background:' + p.c + '"></span><h3>' + p.t + '</h3></div>' +
+      '<p>' + p.d + '</p>' +
+      '<div class="tags">' + makeTags(p.tags) + '</div></div>';
+  }).join("");
+
+  document.getElementById("timeline").innerHTML = PATH.map(function (e) {
+    var bl = '<ul>' + e.bullets.map(function (b) { return '<li>' + b + '</li>'; }).join("") + '</ul>';
+    return '<div class="tl-item reveal">' +
+      '<div class="when">' + e.when + '</div>' +
+      '<h3>' + e.role + '</h3>' +
+      '<div class="org">' + e.org + '</div>' + bl + '</div>';
+  }).join("");
+
+  document.getElementById("eduGrid").innerHTML = EDUCATION.map(function (e) {
+    return '<div class="edu-card glass reveal">' +
+      '<h3>' + e.degree + '</h3>' +
+      '<div class="edu-school">' + e.school + '</div>' +
+      '<div class="edu-score">Score: ' + e.score + '</div></div>';
+  }).join("");
+
+  document.getElementById("exploreGrid").innerHTML = EXPLORING.map(function (e) {
+    return '<div class="explore-card glass reveal"><h3>' + e.t + '</h3><p>' + e.d + '</p></div>';
+  }).join("");
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ============================ NAV ============================ */
+  var nav = document.getElementById("mainNav");
+  var navLinks = document.getElementById("navLinks");
+  var menuToggle = document.getElementById("menuToggle");
+  var menuOpen = false;
+
+  window.addEventListener("scroll", function () {
+    nav.classList.toggle("scrolled", window.scrollY > 20);
+  });
+  menuToggle.addEventListener("click", function () {
+    menuOpen = !menuOpen;
+    navLinks.classList.toggle("show", menuOpen);
+    menuToggle.innerHTML = menuOpen ? "\u2715" : "\u2630";
+  });
+  navLinks.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () {
+      menuOpen = false;
+      navLinks.classList.remove("show");
+      menuToggle.innerHTML = "\u2630";
+    });
+  });
+
+  /* ============================ SCROLL REVEAL ============================ */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* ============================ GLASS: SPECULAR + TILT ============================ */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var canTilt = window.matchMedia("(hover:hover) and (pointer:fine)").matches && !reduceMotion;
+  document.querySelectorAll(".card, .pillar, .edu-card, .explore-card, .feature, .contact-card").forEach(function (el) {
+    el.addEventListener("pointermove", function (e) {
+      var r = el.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      el.style.setProperty("--mx", (px * 100) + "%");
+      el.style.setProperty("--my", (py * 100) + "%");
+      if (canTilt) {
+        var rx = (0.5 - py) * 6;
+        var ry = (px - 0.5) * 6;
+        el.style.transform = "perspective(900px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) translateY(-4px)";
+      }
+    });
+    el.addEventListener("pointerleave", function () {
+      el.style.transform = "";
+      el.style.setProperty("--mx", "50%");
+      el.style.setProperty("--my", "-10%");
+    });
+  });
+
+  /* ============================ KNOWLEDGE GRAPH CANVAS ============================ */
+  var cv = document.getElementById("graph");
+  var ctx = cv.getContext("2d");
+  var raf, W, H, dpr, small = false;
+  var palette = ["#8B6CF6", "#2DD4BF", "#FB7185", "#FBBF24"];
+  var labels = ["Agents", "LLM Orchestration", "Knowledge Graphs", "RAG", "Prompt Eng", "MCP Tools", "FastAPI", "Memory", "Vector Search", "Python"];
+  var labelsShort = ["Agents", "LLMs", "Graphs", "RAG", "Prompts", "MCP", "FastAPI", "Memory", "Vectors", "Python"];
+  var edges = [[0,1],[0,5],[0,7],[1,3],[1,4],[2,3],[2,8],[3,8],[5,6],[6,9],[9,1],[7,0],[4,1],[8,2],[6,0]];
+  var nodes = [], mouse = { x: -9999, y: -9999 }, t = 0;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight || window.innerHeight;
+    cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function seed() {
+    small = W < 640;
+    var L = small ? labelsShort : labels;
+    nodes = L.map(function (lab, i) {
+      return { lab: lab, c: palette[i % palette.length],
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.12,
+        r: 4 + Math.random() * 3, seed: Math.random() * 1000 };
+    });
+  }
+  function draw() {
+    t += 0.005; ctx.clearRect(0, 0, W, H);
+    for (var e = 0; e < edges.length; e++) {
+      var n1 = nodes[edges[e][0]], n2 = nodes[edges[e][1]];
+      if (!n1 || !n2) continue;
+      var dist = Math.hypot(n2.x - n1.x, n2.y - n1.y);
+      var g = ctx.createLinearGradient(n1.x, n1.y, n2.x, n2.y);
+      g.addColorStop(0, n1.c); g.addColorStop(1, n2.c);
+      ctx.strokeStyle = g; ctx.globalAlpha = Math.max(0.05, 0.22 - dist / 2600);
+      ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(n1.x, n1.y); ctx.lineTo(n2.x, n2.y); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (!reduceMotion) {
+        n.x += n.vx + Math.sin(t + n.seed) * 0.06; n.y += n.vy + Math.cos(t + n.seed) * 0.06;
+        if (n.x < 20 || n.x > W - 20) n.vx *= -1; if (n.y < 20 || n.y > H - 20) n.vy *= -1;
+        n.x = Math.max(16, Math.min(W - 16, n.x)); n.y = Math.max(16, Math.min(H - 16, n.y));
+      }
+      var near = Math.hypot(mouse.x - n.x, mouse.y - n.y) < 120;
+      var r = n.r * (near ? 1.7 : 1);
+      var glow = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 5);
+      glow.addColorStop(0, n.c + "55"); glow.addColorStop(1, n.c + "00");
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(n.x, n.y, r * 5, 0, 7); ctx.fill();
+      ctx.fillStyle = n.c; ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 7); ctx.fill();
+      ctx.globalAlpha = near ? 1 : 0.5; ctx.fillStyle = near ? "#EDEDFB" : "#9293BE";
+      ctx.font = (near ? (small ? 11 : 12) : (small ? 9.5 : 10.5)) + "px 'JetBrains Mono', monospace";
+      ctx.fillText(n.lab, n.x + n.r + 7, n.y + 3); ctx.globalAlpha = 1;
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  cv.addEventListener("mousemove", function (e) {
+    var rect = cv.getBoundingClientRect(); mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+  });
+  cv.addEventListener("mouseleave", function () { mouse.x = -9999; mouse.y = -9999; });
+  window.addEventListener("resize", function () { resize(); seed(); });
+  resize(); seed(); draw();
+
+})();
 </script>
 </body>
 </html>
