@@ -23,7 +23,7 @@
     --glass-border:rgba(255,255,255,0.11);
     --glass-hi:rgba(255,255,255,0.18);
     --blur:18px; --sat:160%;
-    --maxw:1080px;
+    --maxw:1480px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;background:#0A0A18}
@@ -39,6 +39,27 @@
       radial-gradient(60% 50% at 18% 4%, rgba(139,108,246,0.10), transparent 70%),
       radial-gradient(55% 50% at 88% 18%, rgba(45,212,191,0.08), transparent 70%),
       #07071A;}
+
+  /* ---- scroll progress ---- */
+  .scroll-progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:60;transform:scaleX(0);transform-origin:0 50%;
+    background:linear-gradient(90deg,#8B6CF6,#2DD4BF,#FB7185);box-shadow:0 0 12px rgba(139,108,246,.6);will-change:transform}
+
+  /* ---- aurora ---- */
+  .bg-aurora{position:fixed;inset:-12% -12% 0 -12%;z-index:-2;overflow:hidden;pointer-events:none;opacity:.6;will-change:transform}
+  .aurora-band{position:absolute;left:-25%;width:150%;height:55vh;mix-blend-mode:screen;
+    filter:blur(48px) saturate(150%);border-radius:50% 50% 45% 55% / 60% 60% 40% 40%;opacity:.7;will-change:transform}
+  .aurora-band.a1{top:-14vh;
+    background:linear-gradient(95deg,transparent 8%,rgba(45,212,191,.55) 32%,rgba(56,189,248,.5) 52%,rgba(139,108,246,.55) 72%,transparent 95%);
+    animation:auroraA 20s ease-in-out infinite}
+  .aurora-band.a2{top:2vh;opacity:.55;
+    background:linear-gradient(85deg,transparent 5%,rgba(139,108,246,.5) 28%,rgba(45,212,191,.5) 55%,rgba(94,234,212,.45) 78%,transparent 96%);
+    animation:auroraB 28s ease-in-out infinite}
+  .aurora-band.a3{top:-22vh;opacity:.4;
+    background:linear-gradient(110deg,transparent 10%,rgba(56,189,248,.45) 40%,rgba(139,108,246,.45) 65%,transparent 92%);
+    animation:auroraC 34s ease-in-out infinite}
+  @keyframes auroraA{0%,100%{transform:translateX(-5%) rotate(-7deg) skewX(-8deg) scaleY(1)}50%{transform:translateX(7%) rotate(-3deg) skewX(-3deg) scaleY(1.15)}}
+  @keyframes auroraB{0%,100%{transform:translateX(6%) rotate(5deg) skewX(6deg) scaleY(1.1)}50%{transform:translateX(-6%) rotate(2deg) skewX(2deg) scaleY(.9)}}
+  @keyframes auroraC{0%,100%{transform:translateX(-3%) rotate(-4deg) scaleY(1)}50%{transform:translateX(5%) rotate(-1deg) scaleY(1.2)}}
 
   /* ---- liquid morphing blobs ---- */
   .bg-blobs{position:fixed;inset:-15%;z-index:-2;pointer-events:none;overflow:hidden;filter:saturate(125%)}
@@ -62,7 +83,7 @@
 
   a{color:inherit;text-decoration:none}
   ::selection{background:rgba(139,108,246,0.35)}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;width:100%}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,64px);width:100%}
 
   /* ---- nav (floating glass pill) ---- */
   nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:14px;transition:padding .3s}
@@ -182,6 +203,7 @@
 
   /* ---- cards grid ---- */
   .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .card{border-radius:18px;padding:22px}
   .card-head{display:flex;align-items:center;gap:10px;margin-bottom:13px}
   .card-head .ic{width:10px;height:10px;border-radius:3px;flex:none;box-shadow:0 0 10px currentColor}
@@ -246,7 +268,7 @@
   .reveal.in{opacity:1;translate:0 0}
 
   /* ---- responsive ---- */
-  @media(max-width:1024px){:root{--maxw:920px}.wrap{padding:0 26px}.about-grid{gap:34px}}
+  @media(max-width:1100px){.grid3{grid-template-columns:repeat(2,1fr)}.about-grid{gap:34px}}
   @media(max-width:880px){
     .navlinks{position:absolute;top:calc(100% + 10px);left:0;right:0;flex-direction:column;gap:0;
       background:linear-gradient(135deg,rgba(20,20,40,.9),rgba(16,16,32,.85));
@@ -266,6 +288,9 @@
   @media(max-width:680px){
     .wrap{padding:0 18px}
     .grid2{grid-template-columns:1fr}
+    .grid3{grid-template-columns:1fr}
+    .bg-aurora{opacity:.45}
+    .aurora-band{filter:blur(34px)}
     section{padding:58px 0}
     .feature{padding:24px 20px}
     .contact-card{padding:34px 20px}
@@ -287,7 +312,9 @@
 </head>
 <body>
 
-<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="bg-aurora" id="bgAurora"><div class="aurora-band a1"></div><div class="aurora-band a2"></div><div class="aurora-band a3"></div></div>
+<div class="bg-blobs" id="bgBlobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 <div class="bg-noise"></div>
 
 <!-- ====== NAV ====== -->
@@ -358,7 +385,7 @@
     <div class="sec-label">Toolkit</div>
     <h2 class="reveal">What I work with</h2>
     <p class="sec-intro reveal" style="margin-bottom:36px">Grouped by where each piece sits in an AI system — from agents down to the backend.</p>
-    <div class="grid2" id="skillsGrid"></div>
+    <div class="grid3" id="skillsGrid"></div>
   </div>
 </section>
 
@@ -593,6 +620,28 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* ============================ SCROLL: parallax bg + progress ============================ */
+  var rmFX = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var bgAurora = document.getElementById("bgAurora");
+  var bgBlobs = document.getElementById("bgBlobs");
+  var scrollProgress = document.getElementById("scrollProgress");
+  var tickingFX = false;
+  function onScrollFX() {
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    var p = docH > 0 ? Math.min(1, Math.max(0, y / docH)) : 0;
+    if (scrollProgress) scrollProgress.style.transform = "scaleX(" + p.toFixed(4) + ")";
+    if (!rmFX) {
+      if (bgAurora) bgAurora.style.transform = "translate3d(0," + (y * 0.16).toFixed(1) + "px,0)";
+      if (bgBlobs) bgBlobs.style.transform = "translate3d(0," + (y * 0.07).toFixed(1) + "px,0)";
+    }
+    tickingFX = false;
+  }
+  window.addEventListener("scroll", function () {
+    if (!tickingFX) { tickingFX = true; requestAnimationFrame(onScrollFX); }
+  }, { passive: true });
+  onScrollFX();
 
   /* ============================ GLASS: SPECULAR + TILT ============================ */
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
