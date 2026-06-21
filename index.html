@@ -120,8 +120,6 @@
   /* ---- hero ---- */
   header.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
   #graph{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-  .hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(120% 80% at 70% 30%,rgba(7,7,26,0) 0%,rgba(7,7,26,.45) 58%,rgba(7,7,26,.85) 100%)}
   .hero-inner{position:relative;z-index:2;padding-top:80px}
   .hero-inner>*{opacity:0;animation:heroIn .85s cubic-bezier(.2,.7,.2,1) forwards}
   .hero-inner>.badge{animation-delay:.05s}
@@ -345,7 +343,6 @@
 <!-- ====== HERO ====== -->
 <header class="hero" id="top">
   <canvas id="graph"></canvas>
-  <div class="hero-veil"></div>
   <div class="wrap hero-inner">
     <div class="badge"><span class="pulse"></span>AVAILABLE FOR WORK · AI ENGINEER</div>
     <h1 class="name">Sumit <span class="g">Biranje</span></h1>
