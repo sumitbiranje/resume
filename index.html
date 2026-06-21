@@ -34,7 +34,7 @@
     -webkit-tap-highlight-color:rgba(139,108,246,.2);
   }
   /* base ambient */
-  body::before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+  body::before{content:"";position:fixed;inset:0;z-index:-4;pointer-events:none;
     background:
       radial-gradient(60% 50% at 18% 4%, rgba(139,108,246,0.10), transparent 70%),
       radial-gradient(55% 50% at 88% 18%, rgba(45,212,191,0.08), transparent 70%),
@@ -45,37 +45,37 @@
     background:linear-gradient(90deg,#8B6CF6,#2DD4BF,#FB7185);box-shadow:0 0 12px rgba(139,108,246,.6);will-change:transform}
 
   /* ---- aurora ---- */
-  .bg-aurora{position:fixed;inset:-12% -12% 0 -12%;z-index:-2;overflow:hidden;pointer-events:none;opacity:.6;will-change:transform}
-  .aurora-band{position:absolute;left:-25%;width:150%;height:55vh;mix-blend-mode:screen;
-    filter:blur(48px) saturate(150%);border-radius:50% 50% 45% 55% / 60% 60% 40% 40%;opacity:.7;will-change:transform}
-  .aurora-band.a1{top:-14vh;
-    background:linear-gradient(95deg,transparent 8%,rgba(45,212,191,.55) 32%,rgba(56,189,248,.5) 52%,rgba(139,108,246,.55) 72%,transparent 95%);
-    animation:auroraA 20s ease-in-out infinite}
-  .aurora-band.a2{top:2vh;opacity:.55;
-    background:linear-gradient(85deg,transparent 5%,rgba(139,108,246,.5) 28%,rgba(45,212,191,.5) 55%,rgba(94,234,212,.45) 78%,transparent 96%);
-    animation:auroraB 28s ease-in-out infinite}
-  .aurora-band.a3{top:-22vh;opacity:.4;
-    background:linear-gradient(110deg,transparent 10%,rgba(56,189,248,.45) 40%,rgba(139,108,246,.45) 65%,transparent 92%);
-    animation:auroraC 34s ease-in-out infinite}
-  @keyframes auroraA{0%,100%{transform:translateX(-5%) rotate(-7deg) skewX(-8deg) scaleY(1)}50%{transform:translateX(7%) rotate(-3deg) skewX(-3deg) scaleY(1.15)}}
-  @keyframes auroraB{0%,100%{transform:translateX(6%) rotate(5deg) skewX(6deg) scaleY(1.1)}50%{transform:translateX(-6%) rotate(2deg) skewX(2deg) scaleY(.9)}}
-  @keyframes auroraC{0%,100%{transform:translateX(-3%) rotate(-4deg) scaleY(1)}50%{transform:translateX(5%) rotate(-1deg) scaleY(1.2)}}
+  .bg-aurora{position:fixed;inset:-12% -12% 0 -12%;z-index:-3;overflow:hidden;pointer-events:none;opacity:.5;will-change:transform,filter}
+  .aurora-band{position:absolute;left:-25%;width:150%;height:62vh;
+    filter:blur(40px) saturate(170%);border-radius:50% 50% 45% 55% / 60% 60% 40% 40%;opacity:.8;will-change:transform}
+  .aurora-band.a1{top:-16vh;
+    background:linear-gradient(95deg,transparent 6%,rgba(45,212,191,.7) 30%,rgba(56,189,248,.62) 52%,rgba(139,108,246,.7) 74%,transparent 96%);
+    animation:auroraA 11s ease-in-out infinite}
+  .aurora-band.a2{top:2vh;opacity:.7;
+    background:linear-gradient(85deg,transparent 4%,rgba(139,108,246,.62) 26%,rgba(45,212,191,.62) 54%,rgba(94,234,212,.55) 78%,transparent 96%);
+    animation:auroraB 14s ease-in-out infinite}
+  .aurora-band.a3{top:-24vh;opacity:.55;
+    background:linear-gradient(110deg,transparent 8%,rgba(56,189,248,.58) 38%,rgba(139,108,246,.58) 64%,transparent 92%);
+    animation:auroraC 17s ease-in-out infinite}
+  @keyframes auroraA{0%,100%{transform:translate(-6%,0) rotate(-8deg) skewX(-10deg) scaleY(1)}50%{transform:translate(9%,4%) rotate(-3deg) skewX(-3deg) scaleY(1.18)}}
+  @keyframes auroraB{0%,100%{transform:translate(7%,2%) rotate(6deg) skewX(7deg) scaleY(1.12)}50%{transform:translate(-7%,-3%) rotate(2deg) skewX(2deg) scaleY(.9)}}
+  @keyframes auroraC{0%,100%{transform:translate(-4%,0) rotate(-5deg) scaleY(1)}50%{transform:translate(6%,3%) rotate(-1deg) scaleY(1.22)}}
 
   /* ---- liquid morphing blobs ---- */
   .bg-blobs{position:fixed;inset:-15%;z-index:-2;pointer-events:none;overflow:hidden;filter:saturate(125%)}
   .blob{position:absolute;width:46vmax;height:46vmax;border-radius:50%;
-    filter:blur(75px);opacity:.42;mix-blend-mode:screen;will-change:transform,border-radius}
+    filter:blur(50px);opacity:.55;mix-blend-mode:screen;will-change:transform,border-radius}
   .blob.b1{background:radial-gradient(circle at 30% 30%,#8B6CF6,transparent 65%);top:-8%;left:-6%;
-    animation:morph1 22s ease-in-out infinite, drift1 30s ease-in-out infinite}
-  .blob.b2{background:radial-gradient(circle at 60% 40%,#2DD4BF,transparent 65%);top:18%;right:-10%;
-    animation:morph2 26s ease-in-out infinite, drift2 34s ease-in-out infinite}
+    animation:morph1 14s ease-in-out infinite, drift1 18s ease-in-out infinite}
+  .blob.b2{background:radial-gradient(circle at 60% 40%,#2DD4BF,transparent 65%);top:14%;right:-10%;
+    animation:morph2 16s ease-in-out infinite, drift2 20s ease-in-out infinite}
   .blob.b3{background:radial-gradient(circle at 50% 50%,#FB7185,transparent 62%);bottom:-12%;left:24%;
-    opacity:.30;animation:morph1 30s ease-in-out infinite reverse, drift3 38s ease-in-out infinite}
+    opacity:.42;animation:morph1 18s ease-in-out infinite reverse, drift3 22s ease-in-out infinite}
   @keyframes morph1{0%,100%{border-radius:60% 40% 35% 65% / 55% 35% 65% 45%}50%{border-radius:35% 65% 60% 40% / 45% 60% 40% 55%}}
   @keyframes morph2{0%,100%{border-radius:45% 55% 60% 40% / 60% 45% 55% 40%}50%{border-radius:65% 35% 40% 60% / 40% 60% 45% 55%}}
-  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(7%,9%) scale(1.12)}}
-  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(-9%,6%) scale(.92)}}
-  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5%,-8%) scale(1.1)}}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(16%,18%) scale(1.18)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(-18%,12%) scale(.9)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(12%,-16%) scale(1.15)}}
 
   /* ---- film grain ---- */
   .bg-noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
@@ -271,8 +271,8 @@
   @media(max-width:1100px){.grid3{grid-template-columns:repeat(2,1fr)}.about-grid{gap:34px}}
   @media(max-width:880px){
     .navlinks{position:absolute;top:calc(100% + 10px);left:0;right:0;flex-direction:column;gap:0;
-      background:linear-gradient(135deg,rgba(20,20,40,.9),rgba(16,16,32,.85));
-      backdrop-filter:blur(20px) saturate(var(--sat));-webkit-backdrop-filter:blur(20px) saturate(var(--sat));
+      background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02)),rgba(10,10,24,.42);
+      backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);
       padding:8px 0;border-radius:16px;border:1px solid var(--glass-border);
       box-shadow:0 18px 50px -18px rgba(0,0,0,.7);
       opacity:0;translate:0 -12px;pointer-events:none;transition:opacity .28s,translate .28s;align-items:stretch}
@@ -289,7 +289,7 @@
     .wrap{padding:0 18px}
     .grid2{grid-template-columns:1fr}
     .grid3{grid-template-columns:1fr}
-    .bg-aurora{opacity:.45}
+    .bg-aurora{opacity:.4}
     .aurora-band{filter:blur(34px)}
     section{padding:58px 0}
     .feature{padding:24px 20px}
@@ -299,14 +299,18 @@
     .cta-row{width:100%}
     .btn-primary,.btn-ghost{flex:1 1 auto;justify-content:center;text-align:center}
     .clink{flex:1 1 auto;justify-content:center}
-    .blob{filter:blur(55px)}
+    .blob{filter:blur(40px)}
   }
+  @keyframes blobPulse{0%,100%{opacity:.4}50%{opacity:.66}}
+  @keyframes auroraPulse{0%,100%{opacity:.5}50%{opacity:.85}}
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
     html{scroll-behavior:auto}
     .reveal{opacity:1;translate:0 0}
     .hero-inner>*{opacity:1}
-    .blob{display:none}
+    /* calm, non-positional shimmer — safe under reduced motion */
+    .blob{display:block!important;animation:blobPulse 7s ease-in-out infinite!important}
+    .aurora-band{animation:auroraPulse 8s ease-in-out infinite!important}
   }
 </style>
 </head>
@@ -623,6 +627,8 @@
 
   /* ============================ SCROLL: parallax bg + progress ============================ */
   var rmFX = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var smallFX = window.matchMedia("(max-width:680px)").matches;
+  window.addEventListener("resize", function () { smallFX = window.matchMedia("(max-width:680px)").matches; });
   var bgAurora = document.getElementById("bgAurora");
   var bgBlobs = document.getElementById("bgBlobs");
   var scrollProgress = document.getElementById("scrollProgress");
@@ -633,8 +639,14 @@
     var p = docH > 0 ? Math.min(1, Math.max(0, y / docH)) : 0;
     if (scrollProgress) scrollProgress.style.transform = "scaleX(" + p.toFixed(4) + ")";
     if (!rmFX) {
-      if (bgAurora) bgAurora.style.transform = "translate3d(0," + (y * 0.16).toFixed(1) + "px,0)";
-      if (bgBlobs) bgBlobs.style.transform = "translate3d(0," + (y * 0.07).toFixed(1) + "px,0)";
+      // aurora drifts up and shifts hue across the scroll; blobs sink — opposite directions create depth
+      if (bgAurora) {
+        bgAurora.style.transform = "translate3d(0," + (-p * 70).toFixed(1) + "px,0)";
+        bgAurora.style.filter = smallFX ? "" : "hue-rotate(" + (p * 60).toFixed(1) + "deg)";
+      }
+      if (bgBlobs) {
+        bgBlobs.style.transform = "translate3d(0," + (p * 60).toFixed(1) + "px,0) scale(" + (1 + p * 0.08).toFixed(3) + ")";
+      }
     }
     tickingFX = false;
   }
